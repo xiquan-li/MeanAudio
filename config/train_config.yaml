@@ -1,0 +1,46 @@
+defaults:
+  - base_config    
+  - override data: t5_clap    # change here for loading different text features in training/evaluation
+  - override hydra/job_logging: custom  
+  - _self_             
+
+hydra:
+  run:
+    dir: ./exps/${exp_id}  # home_dir/exps/MMAudio
+  output_subdir: train-${now:%Y-%m-%d_%H-%M-%S}-hydra
+
+ema: 
+  start: 0
+
+mini_train: False
+example_train: False
+enable_grad_scaler: True
+ac_oversample_rate: 5
+
+log_text_interval: 50
+log_extra_interval: 10_000
+val_interval: 10_000
+eval_interval: 10_000
+save_eval_interval: 10_000
+save_weights_interval: 5_000
+save_checkpoint_interval: 10_000
+save_copy_iterations: []
+
+batch_size: 128
+eval_batch_size: 4 
+
+num_iterations: 100_000
+learning_rate: 1e-4
+linear_warmup_steps: 1_000
+
+lr_schedule: step
+lr_schedule_steps: [40_000, 45_000]
+lr_schedule_gamma: 0.1
+
+clip_grad_norm: 1.0
+weight_decay: 1.0e-6
+
+output_name: null   # for eval
+
+use_meanflow: True
+use_repa: False

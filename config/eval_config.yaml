@@ -1,0 +1,23 @@
+## This config fire is no longer used
+## We pass everything by train_config to ensure training/eval consistency
+
+defaults:
+  - base_config_at
+  - override hydra/job_logging: custom-simplest
+  - _self_
+
+hydra:
+  run:
+    dir: ./exps/${exp_id}
+  output_subdir: eval-${now:%Y-%m-%d_%H-%M-%S}-hydra
+
+exp_id: ${model}
+dataset: audiocaps
+duration_s: 10.0
+
+# for inference, this is the per-GPU batch size
+batch_size: 16  # eval batch size
+
+output_name: null
+
+enable_grad_scaler: False

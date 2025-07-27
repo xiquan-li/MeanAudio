@@ -1,0 +1,114 @@
+# AudioCaps 
+AudioCaps_npz: 
+  tag: train
+  tsv: /apdcephfs_gy4/share_302507476/xiquanli/data/MMAudio/audiocaps/train-memmap.tsv
+  npz_dir: /apdcephfs_gy4/share_302507476/xiquanli/data/MMAudio/audiocaps/train-npz-t5-clap
+  output_subdir: null
+  repa_npz_dir: null
+  # concat_text_fc: False
+
+AudioCaps_val_npz: 
+  tag: val
+  tsv: /apdcephfs_gy4/share_302507476/xiquanli/data/MMAudio/audiocaps/val-memmap.tsv
+  npz_dir: /apdcephfs_gy4/share_302507476/xiquanli/data/MMAudio/audiocaps/val-npz-t5-clap
+  output_subdir: null
+  repa_npz_dir: null
+  gt_cache: /apdcephfs_gy4/share_302507476/xiquanli/data/AudioCaps/val-features
+  # concat_text_fc: False
+
+AudioCaps_test_npz: 
+  tag: test
+  tsv: /apdcephfs_gy4/share_302507476/xiquanli/data/MMAudio/audiocaps/test-memmap.tsv
+  npz_dir: /apdcephfs_gy4/share_302507476/xiquanli/data/MMAudio/audiocaps/test-npz-t5-clap
+  output_subdir: null
+  repa_npz_dir: null
+  gt_cache: /apdcephfs_gy4/share_302507476/xiquanli/data/AudioCaps/test-features
+  # concat_text_fc: False
+
+latent_mean: '/apdcephfs_gy4/share_302507476/xiquanli/data/MMAudio/audiocaps/latent_mean.pt'
+latent_std: '/apdcephfs_gy4/share_302507476/xiquanli/data/MMAudio/audiocaps/latent_std.pt'
+
+# Clotho
+Clotho_npz:
+  tsv: /hpc_stor03/sjtu_home/xiquan.li/data/MMAudio/clotho/dev-memmap-t5-clap.tsv
+  npz_dir: /hpc_stor03/sjtu_home/xiquan.li/data/MMAudio/clotho/dev-npz-t5-clap
+  repa_npz_dir: null
+  # concat_text_fc: False
+
+# WavCaps 
+AudioSetSL_npz: 
+  tsv: /hpc_stor03/sjtu_home/xiquan.li/data/MMAudio/wavcaps/audioset-sl-memmap-t5-clap.tsv
+  npz_dir: /hpc_stor03/sjtu_home/xiquan.li/data/MMAudio/wavcaps/audioset-sl-npz-t5-clap
+  repa_npz_dir: null
+  # concat_text_fc: False
+
+BBCSound_npz: 
+  tsv: /hpc_stor03/sjtu_home/xiquan.li/data/MMAudio/wavcaps/bbc-sound-effects-memmap-t5-clap.tsv
+  npz_dir: /hpc_stor03/sjtu_home/xiquan.li/data/MMAudio/wavcaps/bbc-sound-effects-npz-t5-clap
+  repa_npz_dir: null
+  # concat_text_fc: False
+
+FreeSound1_npz:
+  tsv: /hpc_stor03/sjtu_home/junxi.liu/shared/freesound-memmap-t5-clap-1.tsv
+  npz_dir: /hpc_stor03/sjtu_home/junxi.liu/shared/freesound-npz-t5-clap-1
+  repa_npz_dir: null
+  # concat_text_fc: False
+
+FreeSound2_npz:
+  tsv: /hpc_stor03/sjtu_home/junxi.liu/shared/freesound-memmap-t5-clap-2.tsv
+  npz_dir: /hpc_stor03/sjtu_home/junxi.liu/shared/freesound-npz-t5-clap-2
+  repa_npz_dir: null
+  # concat_text_fc: False
+
+FreeSound3_npz:
+  tsv: /hpc_stor03/sjtu_home/junxi.liu/shared/freesound-memmap-t5-clap-3.tsv
+  npz_dir: /hpc_stor03/sjtu_home/junxi.liu/shared/freesound-npz-t5-clap-3
+  repa_npz_dir: null
+  # concat_text_fc: False
+
+# Backup - old tensordict data
+
+
+# AudioCaps: 
+#   tag: train
+#   tsv: /apdcephfs_gy4/share_302507476/xiquanli/data/MMAudio/audiocaps/train-memmap.tsv
+#   memmap_dir: /apdcephfs_gy4/share_302507476/xiquanli/data/MMAudio/audiocaps/train-memmap-t5-clap
+#   output_subdir: null
+
+# AudioCaps_val: 
+#   tag: val
+#   tsv: /apdcephfs_gy4/share_302507476/xiquanli/data/MMAudio/audiocaps/val-memmap.tsv
+#   memmap_dir: /apdcephfs_gy4/share_302507476/xiquanli/data/MMAudio/audiocaps/val-memmap-t5-clap
+#   output_subdir: null
+#   gt_cache: /apdcephfs_gy4/share_302507476/xiquanli/data/AudioCaps/val-features
+  
+# AudioCaps_test: 
+#   tag: test
+#   tsv: /apdcephfs_gy4/share_302507476/xiquanli/data/MMAudio/audiocaps/test-memmap.tsv
+#   memmap_dir: /apdcephfs_gy4/share_302507476/xiquanli/data/MMAudio/audiocaps/test-memmap-t5-clap
+#   output_subdir: null
+#   gt_cache: /apdcephfs_gy4/share_302507476/xiquanli/data/AudioCaps/test-features
+
+# Clotho:
+#   tsv: /hpc_stor03/sjtu_home/xiquan.li/data/MMAudio/clotho/dev-memmap-t5-clap.tsv
+#   memmap_dir: /hpc_stor03/sjtu_home/xiquan.li/data/MMAudio/clotho/dev-memmap-t5-clap
+
+# AudioSetSL:
+#   tsv: /hpc_stor03/sjtu_home/xiquan.li/data/MMAudio/wavcaps/audioset-sl-memmap-t5-clap.tsv
+#   memmap_dir: /hpc_stor03/sjtu_home/xiquan.li/data/MMAudio/wavcaps/audioset-sl-memmap-t5-clap
+
+# BBCSound:
+#   tsv: /hpc_stor03/sjtu_home/xiquan.li/data/MMAudio/wavcaps/bbc-sound-effects-memmap-t5-clap.tsv
+#   memmap_dir:  /hpc_stor03/sjtu_home/xiquan.li/data/MMAudio/wavcaps/bbc-sound-effects-memmap-t5-clap
+
+# FreeSound1:
+#   tsv: /hpc_stor03/sjtu_home/junxi.liu/shared/freesound-memmap-t5-clap-1.tsv
+#   memmap_dir: /hpc_stor03/sjtu_home/junxi.liu/shared/freesound-memmap-t5-clap-1
+
+# FreeSound2:
+#   tsv: /hpc_stor03/sjtu_home/junxi.liu/shared/freesound-memmap-t5-clap-2.tsv
+#   memmap_dir: /hpc_stor03/sjtu_home/junxi.liu/shared/freesound-memmap-t5-clap-2
+
+# FreeSound3:
+#   tsv: /hpc_stor03/sjtu_home/junxi.liu/shared/freesound-memmap-t5-clap-3.tsv
+#   memmap_dir: /hpc_stor03/sjtu_home/junxi.liu/shared/freesound-memmap-t5-clap-3
