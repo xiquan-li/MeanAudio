@@ -2,8 +2,6 @@ run_*.sh
 log/
 saves
 saves/
-weights/
-weights
 output/
 output
 pretrained/
@@ -17,6 +15,12 @@ wandb/
 training/example_output/
 app/
 docs/
+
+data/
+!data/.gitkeep
+
+weights/
+!weights/.gitkeep
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

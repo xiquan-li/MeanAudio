@@ -107,7 +107,6 @@ def train(cfg: DictConfig):
     # construct the trainer
     if not cfg.use_repa: 
         if cfg.use_meanflow: 
-            print('using meanflow')
             trainer = RunnerMeanFlow(cfg,
                                      log=log,
                                      run_path=run_dir,

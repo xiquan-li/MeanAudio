@@ -4,7 +4,7 @@ export CUDA_VISIBLE_DEVICES=2
 
 num_steps=25
 ckpt_path=./weights/fluxaudio_fm.pth
-output_path=./exps/fluxaudio/test_${num_steps}nfe
+output_path=./exps/fluxaudio/test_${num_steps}nfe_fp32
 
 python eval.py \
     --variant "fluxaudio_fm" \
@@ -22,7 +22,7 @@ python eval.py \
 
 cd ./av-benchmark
 gt_audio='gt_audio'  # not used if you specify gt_cache 
-gt_cache='../../../data/AudioCaps/test-features' 
+gt_cache='./data/audiocaps/test-features' 
 
 pred_audio=$output_path/audio
 output_metrics_dir=$output_path

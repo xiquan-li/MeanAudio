@@ -26,8 +26,7 @@ weights: null
 # checkpoint: /hpc_stor03/sjtu_home/junxi.liu/v2a/MMAudio/MMAudio/finetune_checkpoint/AT_WAC_btz768_numgpus8_niter100_000_T5_CLAP_RoPE_ckpt_last.pth 
 checkpoint: null
 
-# seed: 14159265
-seed: 42
+seed: 14159265
 num_workers: 10 # per-GPU
 pin_memory: False # set to True if your system can handle it, i.e., have enough memory
 

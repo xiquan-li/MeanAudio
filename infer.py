@@ -1,3 +1,6 @@
+import warnings
+warnings.filterwarnings("ignore", category=FutureWarning)
+
 import logging
 from argparse import ArgumentParser
 from pathlib import Path
@@ -71,7 +74,6 @@ def main():
     dtype = torch.float32 if args.full_precision else torch.bfloat16
 
     output_dir.mkdir(parents=True, exist_ok=True)
-    print(model.model_name)
     # load a pretrained model
     net: MeanAudio = get_mean_audio(model.model_name, 
                                     use_rope=args.use_rope, 
@@ -113,9 +115,9 @@ def main():
                                   cfg_strength=cfg_strength)
             audio = audios.float().cpu()[0]
             safe_filename = prompt.replace(' ', '_').replace('/', '_').replace('.', '')
-            save_paths = output_dir / f'{safe_filename}-{args.seed}.wav'
-            torchaudio.save( save_paths, audio, seq_cfg.sampling_rate)
-            log.info(f'Audio saved to {save_paths}')
+            save_path = output_dir / f'{safe_filename}--numsteps{num_steps}--seed{args.seed}.wav'
+            torchaudio.save( save_path, audio, seq_cfg.sampling_rate)
+            log.info(f'Audio saved to {save_path}')
         log.info('Memory usage: %.2f GB', torch.cuda.max_memory_allocated() / (2**30))
     else:
         for prompt in tqdm(prompts): 
@@ -130,7 +132,7 @@ def main():
                                   cfg_strength=cfg_strength)
             audio = audios.float().cpu()[0]
             safe_filename = prompt.replace(' ', '_').replace('/', '_').replace('.', '')
-            save_path = output_dir / f'{safe_filename}-{args.seed}.wav'
+            save_path = output_dir / f'{safe_filename}--numsteps{num_steps}--seed{args.seed}.wav'
             torchaudio.save(save_path, audio, seq_cfg.sampling_rate)
 
             log.info(f'Audio saved to {save_path}')

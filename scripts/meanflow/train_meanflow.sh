@@ -3,7 +3,7 @@ export CUDA_VISIBLE_DEVICES=4,5,6,7
 NUM_GPUS=$(echo ${CUDA_VISIBLE_DEVICES:-""} | tr ',' '\n' | wc -l)
 btz=72
 num_iterations=200_000
-exp_id=AC_${btz}_numgpus${NUM_GPUS}_niter${num_iterations}_T5_CLAP_meanflow_improved_changecfg_seed42_flowratio0.75
+exp_id=AC_${btz}_numgpus${NUM_GPUS}_niter${num_iterations}_T5_CLAP_meanflow_improved_changecfg_seed1415926_flowratio0.75
 
 text_encoder_name=t5_clap
 weights=./weights/fluxaudio_fm.pth   # pre-trained weigths to be loaded for mix-field finetuning

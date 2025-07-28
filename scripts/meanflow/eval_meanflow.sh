@@ -2,11 +2,9 @@
 
 export CUDA_VISIBLE_DEVICES=0
 
-num_steps=25
+num_steps=1
 ckpt_path=./weights/meanaudio_mf.pth
-ckpt_path=/apdcephfs_gy4/share_302507476/xiquanli/exps/MMAudio/meanflow/AC_72_numgpus4_niter200_000_T5_CLAP_meanflow_improved_changecfg_seed42_flowratio0.5/AC_72_numgpus4_niter200_000_T5_CLAP_meanflow_improved_changecfg_seed42_flowratio0.5_ema_final.pth
-output_path=./exps/meanaudio/test_${num_steps}nfe_bf16
-output_path=/apdcephfs_gy4/share_302507476/xiquanli/exps/MMAudio/meanflow/AC_72_numgpus4_niter200_000_T5_CLAP_meanflow_improved_changecfg_seed42_flowratio0.5/test_25nfe
+output_path=./exps/meanaudio/test_${num_steps}nfe_fp32
 
 python eval.py \
     --variant "meanaudio_mf" \
@@ -22,15 +20,13 @@ python eval.py \
     --full_precision 
 
 
-
-cd av-benchmark
 gt_audio='gt_audio'  # not used if you specify gt_cache 
-gt_cache='../../../data/AudioCaps/test-features' 
+gt_cache='./data/audiocaps/test-features' 
 
 pred_audio=$output_path/audio
 output_metrics_dir=$output_path
 
-python evaluate.py \
+python av-benchmark/evaluate.py \
     --gt_audio $gt_audio \
     --gt_cache $gt_cache \
     --pred_audio $pred_audio \

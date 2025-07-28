@@ -66,6 +66,7 @@ class MeanFlow():
         self.w = w
         self.k = k
         self.steps = steps
+        
         self.cfg_uncond = cfg_uncond
         self.jvp_api = jvp_api
         assert jvp_api in ['funtorch', 'autograd'], "jvp_api must be 'funtorch' or 'autograd'"
@@ -75,6 +76,7 @@ class MeanFlow():
         elif jvp_api == 'autograd':
             self.jvp_fn = torch.autograd.functional.jvp
             self.create_graph = True
+        log.info(f'MeanFlow initialized with {steps} steps')
 
     def sample_t_r(self, batch_size, device):
         if self.time_dist[0] == 'uniform':

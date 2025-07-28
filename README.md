@@ -1,19 +1,25 @@
 <div align="center">
 <p align="center">
-  <h2>MeanAudio: Fast and Faithful Text-to-Audio Generation with Mean Flows</h2>
+  <h1>MeanAudio: Fast and Faithful Text-to-Audio Generation with Mean Flows</h1>
   <a href=>Paper</a> | <a href="https://meanaudio.github.io/">Webpage</a> 
 </p>
 </div>
 
 
-## Environment Setup
+## Overview 
+MeanAudio is a novel MeanFlow-based model tailored for fast and faithful text-to-audio generation. It can synthesize realistic sound in a single step, achieving a real-time factor (RTF) of 0.013 on a single NVIDIA 3090 GPU. Moreover, it also demonstrates strong performance in multi-step generation.
 
-### Prerequisites
+<div align="center">
+  <img src="sets/performance.png" alt="" width="450">
+</div>
+
+
+## Environmental Setup
 
 **1. Create a new conda environment:**
 
 ```bash
-conda create -n meanaudio python=3.9
+conda create -n meanaudio python=3.11
 
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118 --upgrade
 ```
@@ -22,12 +28,12 @@ conda install -c conda-forge 'ffmpeg<7
 ```
 (Optional, if you use miniforge and don't already have the appropriate ffmpeg) -->
 
-**2. Install with pip :**
+**2. Install with pip:**
 
 ```bash
-git clone 
+git clone https://github.com/xiquan-li/MeanAudio.git
 
-cd MMAudio
+cd MeanAudio
 pip install -e .
 ```
 
@@ -36,44 +42,52 @@ pip install -e .
 
 ## Quick Start
 
-By default, these scripts use the `large_44k_v2` model. 
-In our experiments, inference only takes around 6GB of GPU memory (in 16-bit mode) which should fit in most modern GPUs.
+<!-- **1. Download pre-trained models:** -->
 
-### Command-line interface
+Firstly, download pre-trained models from this [Folder](https://drive.google.com/drive/folders/1nbIsVjl4pqLaAnqj-M8UPkahu28S59Kj?usp=sharing), and put them into `MeanAudio/weights/`. Then, run: 
 
-With `demo.py`
+```bash 
+bash scripts/meanflow/infer_meanflow.sh
+``` 
+You can change `prompt` and `num_steps` in the script to generate diverse sounds. 
+Here is a detailed explanation of the downloaded checkpoints: 
 
-```bash
-python demo.py --duration=8 --video=<path to video> --prompt "your prompt" 
-```
+1. [fluxaudio_fm.pth](https://drive.google.com/file/d/1PAJ7Asx_3e9HiaUoGIfSXI3K7BqgBR9x/view?usp=sharing): The Flux-style flow transformer trained on WavCaps, AudioCaps and Clotho dataset with the **standard flow matching objective**. It is capable of generating audio with multiple ($\geq 25$) sampling steps. You can run `scripts/flowmatching/infer_flowmatching.sh` to generate sound with this model.
 
-The output (audio in `.flac` format, and video in `.mp4` format) will be saved in `./output`.
-See the file for more options.
-Simply omit the `--video` option for text-to-audio synthesis.
-The default output (and training) duration is 8 seconds. Longer/shorter durations could also work, but a large deviation from the training duration may result in a lower quality.
+1. [meanaudio_mf.pth](https://drive.google.com/file/d/1BFWiHVJwdyXihE14znDYiAWF0-mnEtA7/view?usp=sharing): The Flux-style flow transformer fine-tuned on AudioCaps with the **Mean Flow Objective**, supporting both single-step and multi-step audio generation.
 
-### Gradio interface
 
-Supports video-to-audio and text-to-audio synthesis.
-You can also try experimental image-to-audio synthesis which duplicates the input image to a video for processing. This might be interesting to some but it is not something MMAudio has been trained for.
-Use [port forwarding](https://unix.stackexchange.com/questions/115897/whats-ssh-port-forwarding-and-whats-the-difference-between-ssh-local-and-remot) (e.g., `ssh -L 7860:localhost:7860 server`) if necessary. The default port is `7860` which you can specify with `--port`.
-
-```bash
-python gradio_demo.py
-```
+3. Others: [best_netG.pt](https://drive.google.com/file/d/1PAJ7Asx_3e9HiaUoGIfSXI3K7BqgBR9x/view?usp=sharing): The [BigVGAN Vocoder](https://github.com/NVIDIA/BigVGAN). [v1-16.pth](https://drive.google.com/file/d/1bJlNhGGjmDBKjz04bpOi-UjfuJILSiGU/view?usp=sharing):  The 1D VAE. 
+[music_speech_audioset_epoch_15_esc_89.98.pt](https://drive.google.com/file/d/1KGQ5Q8xHOoItPDdJAB8ry6kKJ5HkMyo9/view?usp=share_link): The [CLAP](https://github.com/LAION-AI/CLAP) Encoder. 
 
 ## Training
 
-See [TRAINING.md](docs/TRAINING.md).
+#### 1. Feature Extraction: 
+We first extract VAE latents & text encoder embeddings to enable fast and efficient training. `scripts/extract_audio_latents.sh` provides a detailed guide for it. The pipeline includes two steps: a) partition audios into 10s clips. b) extract latents & embeddings. 
+
+
+#### 2. Install Validation Packages: 
+We rely on [av-benchmark](https://github.com/hkchengrex/av-benchmark) for validation & evaluation. Please install it first before training.
+
+#### 3. Training with MeanFlow objective: 
+Use the script below to train a MeanAudio model. By default, this will initialize the flow transformer from the pretrained ckpt `fluxaudio_fm.pth` and do MeanFlow fine-tuning. 
+```bash
+bash scripts/meanflow/train_meanflow.sh
+```
+
+#### 4. (Optional) Pre-training with Standard Flow Matching: 
+Use the script below to train a Flux-style transformer using the conditional flow matching objective: 
+```bash 
+bash scripts/flowmatching/train_flowmatching.sh
+```
+The obtained model can serve as a strong initialization for the mixed-flow fine-tuning. 
 
 ## Evaluation
 
-See [EVAL.md](docs/EVAL.md).
-
-## Training Datasets
-
-MMAudio was trained on several datasets, including [AudioSet](https://research.google.com/audioset/), [Freesound](https://github.com/LAION-AI/audio-dataset/blob/main/laion-audio-630k/README.md), [VGGSound](https://www.robots.ox.ac.uk/~vgg/data/vggsound/), [AudioCaps](https://audiocaps.github.io/), and [WavCaps](https://github.com/XinhaoMei/WavCaps). These datasets are subject to specific licenses, which can be accessed on their respective websites. We do not guarantee that the pre-trained models are suitable for commercial use. Please use them at your own risk.
-
+Use the script below to do evaluation, before this, please first install [av-benchmark](https://github.com/hkchengrex/av-benchmark) for metrics calculation. You can specify `num_steps` and `ckpt_path` to evaluate different models with different sampling steps. 
+```bash
+bash scripts/meanflow/eval_meanflow.sh 
+```
 
 ## Citation
 
@@ -81,15 +95,12 @@ MMAudio was trained on several datasets, including [AudioSet](https://research.g
 
 ```
 
-## Relevant Repositories
-
-- [av-benchmark](https://github.com/hkchengrex/av-benchmark) for benchmarking results.
 
 
 ## Acknowledgement
 
 Many thanks to:
-- [Make-An-Audio 2](https://github.com/bytedance/Make-An-Audio-2) for the 16kHz BigVGAN pretrained model and the VAE architecture
-- [BigVGAN](https://github.com/NVIDIA/BigVGAN)
-- [Synchformer](https://github.com/v-iashin/Synchformer) 
-- [EDM2](https://github.com/NVlabs/edm2) for the magnitude-preserving VAE network architecture
+- [MMAudio](https://github.com/hkchengrex/MMAudio) for the MMDiT code and training & inference structure
+- [MeanFlow-pytorch](https://github.com/haidog-yaqub/MeanFlow) and [MeanFlow-official](https://github.com/Gsunshine/meanflow) for the mean flow implementation
+- [Make-An-Audio 2](https://github.com/bytedance/Make-An-Audio-2) BigVGAN Vocoder and the VAE. 
+- [av-benchmark](https://github.com/hkchengrex/av-benchmark) for benchmarking results.

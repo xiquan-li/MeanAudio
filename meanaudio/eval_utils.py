@@ -112,7 +112,7 @@ def generate_mf(
     *,
     negative_text: Optional[list[str]] = None,
     feature_utils: FeaturesUtils,
-    net: MeanFlow,
+    net: MeanAudio,
     mf: MeanFlow,
     rng: torch.Generator,
     cfg_strength: float,
