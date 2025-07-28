@@ -54,7 +54,7 @@ Here is a detailed explanation of the downloaded checkpoints:
 
 1. [fluxaudio_fm.pth](https://drive.google.com/file/d/1PAJ7Asx_3e9HiaUoGIfSXI3K7BqgBR9x/view?usp=sharing): The Flux-style flow transformer trained on WavCaps, AudioCaps and Clotho dataset with the **standard flow matching objective**. It is capable of generating audio with multiple ($\geq 25$) sampling steps. You can run `scripts/flowmatching/infer_flowmatching.sh` to generate sound with this model.
 
-1. [meanaudio_mf.pth](https://drive.google.com/file/d/1BFWiHVJwdyXihE14znDYiAWF0-mnEtA7/view?usp=sharing): The Flux-style flow transformer fine-tuned on AudioCaps with the **Mean Flow Objective**, supporting both single-step and multi-step audio generation.
+2. [meanaudio_mf.pth](https://drive.google.com/file/d/1BFWiHVJwdyXihE14znDYiAWF0-mnEtA7/view?usp=sharing): The Flux-style flow transformer fine-tuned on AudioCaps with the **Mean Flow Objective**, supporting both single-step and multi-step audio generation.
 
 
 3. Others: [best_netG.pt](https://drive.google.com/file/d/1PAJ7Asx_3e9HiaUoGIfSXI3K7BqgBR9x/view?usp=sharing): The [BigVGAN Vocoder](https://github.com/NVIDIA/BigVGAN). [v1-16.pth](https://drive.google.com/file/d/1bJlNhGGjmDBKjz04bpOi-UjfuJILSiGU/view?usp=sharing):  The 1D VAE. 
@@ -65,11 +65,14 @@ Here is a detailed explanation of the downloaded checkpoints:
 #### 1. Feature Extraction: 
 We first extract VAE latents & text encoder embeddings to enable fast and efficient training. `scripts/extract_audio_latents.sh` provides a detailed guide for it. The pipeline includes two steps: a) partition audios into 10s clips. b) extract latents & embeddings. 
 
+**To avoid the laborious data pre-processing step, we uploaded an extracted version of the [AudioCaps](https://audiocaps.github.io) data. Feel free to download it from this [link](https://drive.google.com/file/d/1C_P3ZQQWxUgMuCw-qvYj2C2r0iM35Sfy/view?usp=share_link), unzip it and put under `MeanAudio/data/`. Then you can directly jump to the second step 😊.**
+
+However, if you want to train the model on other datasets besides AudioCaps, you should still run `scripts/extract_audio_latents.sh` to do feature extraction. 
 
 #### 2. Install Validation Packages: 
 We rely on [av-benchmark](https://github.com/hkchengrex/av-benchmark) for validation & evaluation. Please install it first before training.
 
-#### 3. Training with MeanFlow objective: 
+#### 3. Train with MeanFlow objective: 
 Use the script below to train a MeanAudio model. By default, this will initialize the flow transformer from the pretrained ckpt `fluxaudio_fm.pth` and do MeanFlow fine-tuning. 
 ```bash
 bash scripts/meanflow/train_meanflow.sh
@@ -92,7 +95,7 @@ bash scripts/meanflow/eval_meanflow.sh
 ## Citation
 
 ```bibtex
-
+TODO
 ```
 
 
@@ -102,5 +105,5 @@ bash scripts/meanflow/eval_meanflow.sh
 Many thanks to:
 - [MMAudio](https://github.com/hkchengrex/MMAudio) for the MMDiT code and training & inference structure
 - [MeanFlow-pytorch](https://github.com/haidog-yaqub/MeanFlow) and [MeanFlow-official](https://github.com/Gsunshine/meanflow) for the mean flow implementation
-- [Make-An-Audio 2](https://github.com/bytedance/Make-An-Audio-2) BigVGAN Vocoder and the VAE. 
-- [av-benchmark](https://github.com/hkchengrex/av-benchmark) for benchmarking results.
+- [Make-An-Audio 2](https://github.com/bytedance/Make-An-Audio-2) BigVGAN Vocoder and the VAE
+- [av-benchmark](https://github.com/hkchengrex/av-benchmark) for benchmarking results

@@ -16,10 +16,10 @@ training/example_output/
 app/
 docs/
 
-data/
+data/*
 !data/.gitkeep
 
-weights/
+weights/*
 !weights/.gitkeep
 
 # Byte-compiled / optimized / DLL files
