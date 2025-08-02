@@ -22,8 +22,8 @@ AudioCaps_test_npz:
   repa_npz_dir: null
   gt_cache: data/audiocaps/test-features
 
-latent_mean: 'data/audiocaps/latent_mean.pt'
-latent_std: 'data/audiocaps/latent_std.pt'
+latent_mean: 'sets/latent_mean.pt'
+latent_std: 'sets/latent_std.pt'
 
 # Clotho
 Clotho_npz:

@@ -3,7 +3,7 @@ export CUDA_VISIBLE_DEVICES=4,5,6,7
 NUM_GPUS=$(echo ${CUDA_VISIBLE_DEVICES:-""} | tr ',' '\n' | wc -l)
 btz=256
 num_iterations=200_000
-exp_id=AC_${btz}_numgpus${NUM_GPUS}_niter${num_iterations}_T5_CLAP_flowmatching_seed1415926
+exp_id=AC_${btz}_numgpus${NUM_GPUS}_niter${num_iterations}_T5_CLAP_flowmatching
 
 text_encoder_name=t5_clap
 
