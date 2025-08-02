@@ -6,7 +6,7 @@ defaults:
 
 hydra:
   run:
-    dir: ./exps/${exp_id}  # home_dir/exps/MMAudio
+    dir: ./exps/${exp_id}  
   output_subdir: train-${now:%Y-%m-%d_%H-%M-%S}-hydra
 
 ema: 

@@ -1,7 +1,7 @@
 export CUDA_VISIBLE_DEVICES=4,5,6,7
 
 NUM_GPUS=$(echo ${CUDA_VISIBLE_DEVICES:-""} | tr ',' '\n' | wc -l)
-btz=72
+btz=256
 num_iterations=200_000
 exp_id=AC_${btz}_numgpus${NUM_GPUS}_niter${num_iterations}_T5_CLAP_flowmatching_seed1415926
 
@@ -27,6 +27,7 @@ torchrun --standalone --nproc_per_node=$NUM_GPUS \
     pin_memory=False \
     num_workers=10 \
     ac_oversample_rate=5 \
+    use_meanflow=False \
     ++use_rope=True \
     ++use_wandb=True \
     ++debug=False
