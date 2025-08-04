@@ -28,6 +28,7 @@ torchrun --standalone --nproc_per_node=$NUM_GPUS \
     num_workers=10 \
     ac_oversample_rate=5 \
     use_meanflow=False \
+    cfg_strength=4.5 \
     ++use_rope=True \
     ++use_wandb=True \
     ++debug=False

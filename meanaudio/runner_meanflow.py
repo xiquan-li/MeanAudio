@@ -92,6 +92,7 @@ class RunnerMeanFlow:
             self.val_fn = torch.compile(self.val_fn)
 
         self.mf = MeanFlow()
+        
         # ema profile
         if for_training and cfg.ema.enable and local_rank == 0:
             self.ema = PostHocEMA(self.network.module,
@@ -130,7 +131,8 @@ class RunnerMeanFlow:
 
         if cfg.compile:
             self.features.compile()
-        # hyperparameters
+
+        # TODO: change these parameters compatible with meanflow
         self.log_normal_sampling_mean = cfg.sampling.mean
         self.log_normal_sampling_scale = cfg.sampling.scale
         self.null_condition_probability = cfg.null_condition_probability

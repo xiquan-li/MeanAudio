@@ -137,6 +137,7 @@ class RunnerFlowMatching:
         self.log_normal_sampling_scale = cfg.sampling.scale
         self.null_condition_probability = cfg.null_condition_probability
         self.cfg_strength = cfg.cfg_strength
+        log.info(f'Initializing flow matching with cfg_strength: {cfg.cfg_strength}')
 
         # setting up logging
         self.log = log
@@ -186,9 +187,11 @@ class RunnerFlowMatching:
                                                              lr_lambda=lambda x:
                                                              (1 - (x / total_num_iter))**0.9)
             elif cfg['lr_schedule'] == 'step':
-                # !TODO: automatically set lr_schedule_steps
+                total_num_iter = cfg['num_iterations']
+                lr_schedule_steps = [int(0.8 * total_num_iter), int(0.9 * total_num_iter)]
+                self.log.info(f'Assigning lr steps: {lr_schedule_steps}')
                 next_scheduler = optim.lr_scheduler.MultiStepLR(self.optimizer,
-                                                                cfg['lr_schedule_steps'],
+                                                                lr_schedule_steps,
                                                                 cfg['lr_schedule_gamma'])
             else:
                 raise NotImplementedError
@@ -467,6 +470,7 @@ class RunnerFlowMatching:
                         output_path=audio_dir / 'cache',
                         device='cuda',
                         batch_size=16,  # btz=16: avoid OOM
+                        num_workers=4,
                         skip_video_related=True,  # avoid extracting video related features 
                         audio_length=10) 
                 output_metrics = evaluate(gt_audio_cache=Path(data_cfg.gt_cache),

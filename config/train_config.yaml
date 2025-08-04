@@ -34,7 +34,7 @@ learning_rate: 1e-4
 linear_warmup_steps: 1_000
 
 lr_schedule: step
-lr_schedule_steps: [40_000, 45_000]
+lr_schedule_steps: [40_000, 45_000]  # this is not used, lr_schedule_steps will be determined by the number of iterations
 lr_schedule_gamma: 0.1
 
 clip_grad_norm: 1.0

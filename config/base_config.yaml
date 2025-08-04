@@ -23,7 +23,6 @@ amp: True
 weights: null 
 # weights: null
 
-# checkpoint: /hpc_stor03/sjtu_home/junxi.liu/v2a/MMAudio/MMAudio/finetune_checkpoint/AT_WAC_btz768_numgpus8_niter100_000_T5_CLAP_RoPE_ckpt_last.pth 
 checkpoint: null
 
 seed: 14159265
@@ -48,7 +47,7 @@ ema:
   default_output_sigma: 0.05
 
 
-# sampling
+# sampling, only for flow matching
 sampling:
   mean: 0.0
   scale: 1.0
