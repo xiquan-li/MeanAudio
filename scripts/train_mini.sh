@@ -2,11 +2,7 @@
 # Mini training script, to check if everything runs successfully 
 ###
 
-echo "CODE DIR: $CODE_DIR"
-cd $CODE_DIR
-
 export CUDA_VISIBLE_DEVICES=4,5,6,7
-
 
 NUM_GPUS=$(echo ${CUDA_VISIBLE_DEVICES:-""} | tr ',' '\n' | wc -l)
 btz=12

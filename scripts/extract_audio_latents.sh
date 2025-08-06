@@ -1,8 +1,3 @@
-echo "CODE DIR: $CODE_DIR"
-cd $CODE_DIR
-
-
-
 ## split audio clips
 PATH_TO_AUDIO_DIR=     # dir to audio clips e.g.: /home/to/audiocaps_wav
 OUTPUT_PARTITION_FILE=     # ouput csv path, e.g.: /home/to/output/audiocaps-test-partition.tsv
