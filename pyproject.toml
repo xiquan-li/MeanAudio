@@ -51,7 +51,7 @@ dependencies = [
   'python-dotenv',
   'transformers',
   'debugpy',
-  'laion-clap'
+  'laion-clap @ git+https://github.com/hkchengrex/CLAP.git'
 ]
 
 [tool.hatch.build.targets.wheel]
