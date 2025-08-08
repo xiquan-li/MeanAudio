@@ -351,7 +351,27 @@ hr {
 }
 """
 with gr.Blocks(title="MeanAudio Generator", theme=theme, css=custom_css) as demo:
-    gr.Markdown("# MeanAudio:Fast and Faithful Text-to-Audio Generation with Mean Flows", elem_id="main-header")
+    gr.Markdown("# MeanAudio: Fast and Faithful Text-to-Audio Generation with Mean Flows", elem_id="main-header")
+    badge_html = '''
+    <div id="project-badges"> <!-- 使用 ID
+    以便应用 CSS -->
+    <div id="badge-container"> <!-- 添加这个容器 div 并使用 ID -->
+        <a href="https://huggingface.co/junxiliu/MeanAudio">
+        <img src="https://img.shields.io/badge/Model-HuggingFace-violet?logo=huggingface" alt="Hugging Face Model">
+        </a>
+        <a href="https://huggingface.co/spaces/chenxie95/MeanAudio">
+        <img src="https://img.shields.io/badge/Space-HuggingFace-8A2BE2?logo=huggingface" alt="Hugging Face Space">
+        </a>
+        <a href="https://meanaudio.github.io/">
+        <img src="https://img.shields.io/badge/Project-Page-brightred?style=flat" alt="Project Page">
+        </a>
+        <a href="https://github.com/xiquan-li/MeanAudio">
+        <img src="https://img.shields.io/badge/Code-GitHub-black?logo=github" alt="GitHub">
+        </a>
+    </div>
+    </div>
+    '''
+    gr.HTML(badge_html)
     with gr.Column(elem_classes="setting-section"):
         with gr.Row():
             available_variants = (
@@ -420,15 +440,15 @@ with gr.Blocks(title="MeanAudio Generator", theme=theme, css=custom_css) as demo
         outputs=[generate_output_text, audio_output],
     )
     audio_examples = [
-        ["A speech and gunfire followed by a gun being loaded", "", 10.0, 3, 1, 42, "meanaudio_mf"],
         ["Typing on a keyboard", "", 10.0, 3, 1, 42, "meanaudio_mf"],
-        ["A man speaks followed by a popping noise and laughter", "", 10.0, 3, 2, 42, "meanaudio_mf"],
+        ["A man speaks followed by a popping noise and laughter", "", 10.0, 3, 1, 42, "meanaudio_mf"],
         ["Some humming followed by a toilet flushing", "", 10.0, 3, 2, 42, "meanaudio_mf"],
         ["Rain falling on a hard surface as thunder roars in the distance", "", 10.0, 3, 5, 42, "meanaudio_mf"],
         ["Food sizzling and oil popping", "", 10.0, 3, 25, 42, "meanaudio_mf"],
         ["Pots and dishes clanking as a man talks followed by liquid pouring into a container", "", 8.0, 3, 2, 42, "meanaudio_mf"],
         ["A few seconds of silence then a rasping sound against wood", "", 12.0, 3, 2, 42, "meanaudio_mf"],
         ["A man speaks as he gives a speech and then the crowd cheers", "", 10.0, 3, 25, 42, "fluxaudio_fm"],
+        ["A speech and gunfire followed by a gun being loaded", "", 10.0, 3, 1, 42, "meanaudio_mf"],
         ["A goat bleating repeatedly", "", 10.0, 3, 50, 123, "fluxaudio_fm"],
         ["Tires squealing followed by an engine revving", "", 12.0, 4, 25, 456, "fluxaudio_fm"],
         ["Hammer slowly hitting the wooden table", "", 10.0, 3.5, 25, 42, "fluxaudio_fm"],
