@@ -1,7 +1,14 @@
 <div align="center">
 <p align="center">
   <h1>MeanAudio: Fast and Faithful Text-to-Audio Generation with Mean Flows</h1>
-  <a href=>Paper</a> | <a href="https://meanaudio.github.io/">Webpage</a> 
+  <!-- <a href=>Paper</a> | <a href="https://meanaudio.github.io/">Webpage</a>  -->
+
+  [![Webpage](https://img.shields.io/badge/Website-Visit-orange)](https://meanaudio.github.io/)
+  [![Hugging Face Model](https://img.shields.io/badge/Hugging%20Face-Model-brightgreen)](https://huggingface.co/junxiliu/MeanAudio) [![Hugging Face Space](https://img.shields.io/badge/Hugging%20Face-Space-blue)](https://huggingface.co/spaces/chenxie95/MeanAudio)
+  [![Paper](https://img.shields.io/badge/Paper-DOI-blue)]()
+
+
+
 </p>
 </div>
 
@@ -43,22 +50,24 @@ pip install -e .
 ## Quick Start
 
 <!-- **1. Download pre-trained models:** -->
-
-Firstly, download pre-trained models from this [Folder](https://drive.google.com/drive/folders/1nbIsVjl4pqLaAnqj-M8UPkahu28S59Kj?usp=sharing), and put them into `MeanAudio/weights/`. Then, run: 
-
+To generate audio with our pre-trained model, simply run: 
 ```bash 
-bash scripts/meanflow/infer_meanflow.sh
-``` 
-You can change `prompt` and `num_steps` in the script to generate diverse sounds. 
-Here is a detailed explanation of the downloaded checkpoints: 
+python demo.py --prompt 'your prompt' --num_steps 1
+```
+This will automatically download the pre-trained checkpoints from huggingface, and generate audio according to your prompt. 
+The output audio will be at `MeanAudio/output/`, and the checkpoints will be at `MeanAudio/weights/`. 
+
+Alternatively, you can download manually the pre-trained models from this [Folder](https://drive.google.com/drive/folders/1nbIsVjl4pqLaAnqj-M8UPkahu28S59Kj?usp=sharing), and put them into `MeanAudio/weights/`. Here is a detailed explanation of the downloaded checkpoints: 
+
 
 1. [fluxaudio_fm.pth](https://drive.google.com/file/d/1PAJ7Asx_3e9HiaUoGIfSXI3K7BqgBR9x/view?usp=sharing): The Flux-style flow transformer trained on WavCaps, AudioCaps and Clotho dataset with the **standard flow matching objective**. It is capable of generating audio with multiple ($\geq 25$) sampling steps. You can run `scripts/flowmatching/infer_flowmatching.sh` to generate sound with this model.
 
-2. [meanaudio_mf.pth](https://drive.google.com/file/d/1BFWiHVJwdyXihE14znDYiAWF0-mnEtA7/view?usp=sharing): The Flux-style flow transformer fine-tuned on AudioCaps with the **Mean Flow Objective**, supporting both single-step and multi-step audio generation.
+2. [meanaudio_mf.pth](https://drive.google.com/file/d/1BFWiHVJwdyXihE14znDYiAWF0-mnEtA7/view?usp=sharing): The Flux-style flow transformer fine-tuned on AudioCaps with the **Mean Flow Objective**, supporting both single-step and multi-step audio generation. You can run `scripts/meanflow/infer_meanflow.sh` to generate sound with it. 
 
 
-3. Others: [best_netG.pt](https://drive.google.com/file/d/1PAJ7Asx_3e9HiaUoGIfSXI3K7BqgBR9x/view?usp=sharing): The [BigVGAN Vocoder](https://github.com/NVIDIA/BigVGAN). [v1-16.pth](https://drive.google.com/file/d/1bJlNhGGjmDBKjz04bpOi-UjfuJILSiGU/view?usp=sharing):  The 1D VAE. 
-[music_speech_audioset_epoch_15_esc_89.98.pt](https://drive.google.com/file/d/1KGQ5Q8xHOoItPDdJAB8ry6kKJ5HkMyo9/view?usp=share_link): The [CLAP](https://github.com/LAION-AI/CLAP) Encoder. 
+3. Others: The [BigVGAN Vocoder](https://github.com/NVIDIA/BigVGAN): [best_netG.pt](https://drive.google.com/file/d/1PAJ7Asx_3e9HiaUoGIfSXI3K7BqgBR9x/view?usp=sharing). 
+ The 1D VAE: [v1-16.pth](https://drive.google.com/file/d/1bJlNhGGjmDBKjz04bpOi-UjfuJILSiGU/view?usp=sharing). And the [CLAP](https://github.com/LAION-AI/CLAP) encoder:  
+[music_speech_audioset_epoch_15_esc_89.98.pt](https://drive.google.com/file/d/1KGQ5Q8xHOoItPDdJAB8ry6kKJ5HkMyo9/view?usp=share_link): 
 
 ## Training
 

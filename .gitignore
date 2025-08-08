@@ -22,6 +22,8 @@ data/*
 weights/*
 !weights/.gitkeep
 
+weights_backup/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
