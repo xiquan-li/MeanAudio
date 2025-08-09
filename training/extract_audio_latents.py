@@ -42,7 +42,7 @@ mode = '16k'
 
 # SAMPLE_RATE = 44100
 # NUM_SAMPLES = 353280
-# tod_vae_ckpt = './ext_weights/v1-44.pth'
+# tod_vae_ckpt = './weights/v1-44.pth'
 # bigvgan_vocoder_ckpt = None
 # mode = '44k'
 

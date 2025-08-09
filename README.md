@@ -26,8 +26,8 @@ MeanAudio is a novel MeanFlow-based model tailored for fast and faithful text-to
 **1. Create a new conda environment:**
 
 ```bash
-conda create -n meanaudio python=3.11
-
+conda create -n meanaudio python=3.11 -y
+conda activate meanaudio
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118 --upgrade
 ```
 <!-- ```
