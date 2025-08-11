@@ -84,7 +84,7 @@ def MeanAudioDemo(
         try:
             weights_dir = Path('./weights')
             weights_dir.mkdir(exist_ok=True)
-            snapshot_download(repo_id="junxiliu/Meanaudio", local_dir="./weights",allow_patterns=["*.pt", "*.pth"] )
+            snapshot_download(repo_id="junxiliu/Meanaudio", local_dir="./weights" )
         except Exception as e:
             log.error(f"Failed to download model: {e}")
             raise FileNotFoundError(f"Model file not found and download failed: {model_path}, you may need to download the model manually.")
