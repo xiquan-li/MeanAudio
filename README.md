@@ -4,8 +4,8 @@
   <!-- <a href=>Paper</a> | <a href="https://meanaudio.github.io/">Webpage</a>  -->
 
   [![Webpage](https://img.shields.io/badge/Website-Visit-orange)](https://meanaudio.github.io/)
-  [![Hugging Face Model](https://img.shields.io/badge/Hugging%20Face-Model-brightgreen)](https://huggingface.co/junxiliu/MeanAudio)(https://huggingface.co/spaces/chenxie95/MeanAudio)
-  [![Paper](https://img.shields.io/badge/Paper-DOI-blue)](https://arxiv.org/html/2508.06098v1)(https://arxiv.org/html/2508.06098v1)
+  [![Hugging Face Model](https://img.shields.io/badge/Hugging%20Face-Model-brightgreen)](https://huggingface.co/junxiliu/MeanAudio)
+  [![Paper](https://img.shields.io/badge/Paper-DOI-blue)](https://arxiv.org/html/2508.06098v1)
 
 
 
