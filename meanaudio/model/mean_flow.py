@@ -128,8 +128,7 @@ class MeanFlow():
             text_f_c_undrop: torch.Tensor,
             empty_string_feat: torch.Tensor,
             empty_string_feat_c: torch.Tensor):
-        if isinstance(fn, torch.nn.parallel.DistributedDataParallel):
-            fn = fn.module
+
         batch_size = x0.shape[0]
         device = x0.device
         e = torch.randn_like(x0)
