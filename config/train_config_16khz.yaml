@@ -1,6 +1,6 @@
 defaults:
   - base_config    
-  - override data: t5_clap    # change here for loading different text features in training/evaluation
+  - override data: t5_clap_16khz    # only difference is the data config
   - override hydra/job_logging: custom  
   - _self_             
 
@@ -47,6 +47,10 @@ use_repa: False
 
 # datasets: ['fma', 'freesound_30s', 'audioset']
 # datasets: ['fma', 'freesound']
-datasets: ['audioset', 'freesound_10s', 'musiccaps', 'mtt', 'audiocaps', 'bbc_sound_effects', 'audioset_sl', 'vggsound']
+# datasets: ['audioset', 'freesound_10s', 'musiccaps', 'mtt', 'audiocaps', 'bbc_sound_effects', 'audioset_sl', 'vggsound']
 # datasets: ['jamendomaxcaps', 'fma']
+# datasets: ['audioset', 'freesound_10s', 'audiocaps', 'bbc_sound_effects', 'audioset_sl']
+# datasets: ['audiocaps', 'freesound_10s', 'vggsound', 'bbc_sound_effects', 'audioset_sl', 'audioset', 'musiccaps', 'mtt']
+datasets: ['audiocaps', 'freesound_10s', 'vggsound', 'bbc_sound_effects', 'audioset_sl']
+
 # datasets: ['audiocaps']

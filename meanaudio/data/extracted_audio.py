@@ -29,9 +29,13 @@ class ExtractedAudio(Dataset):
     ):
         super().__init__()
         self.data_dim = data_dim
+
+        log.info(f'Loading features from {tsv_path.split("/")[-1]} ...')
         self.df_list = pd.read_csv(tsv_path, sep='\t').to_dict('records') # id, caption
         self.ids = [str(d['id']) for d in self.df_list]
-        npz_files = glob.glob(f"{npz_dir}/*.npz")
+        # npz_files = glob.glob(f"{npz_dir}/*.npz")
+        npz_files = self.df_list
+        
         self.concat_text_fc = concat_text_fc
         self.exclude_cls = exclude_cls
         self.repa_version = repa_version

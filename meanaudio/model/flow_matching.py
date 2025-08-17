@@ -33,7 +33,8 @@ class FlowMatching:
     def loss(self, predicted_v: torch.Tensor, x0: torch.Tensor, x1: torch.Tensor) -> torch.Tensor:
         # return the mean error without reducing the batch dimension
         reduce_dim = list(range(1, len(predicted_v.shape)))
-        target_v = x1 - (1 - self.min_sigma) * x0
+        # target_v = x1 - (1 - self.min_sigma) * x0
+        target_v = (1 - self.min_sigma) * x0 - x1   # fix: we learn the reverse direction, i.e.: from data to noise 
         return (predicted_v - target_v).pow(2).mean(dim=reduce_dim)
 
     def get_x0_xt_c(
@@ -67,5 +68,6 @@ class FlowMatching:
                 next_t = steps[ti + 1]
                 dt = next_t - t
                 x = x + dt * flow
+                # x = x - dt * flow 
 
         return x

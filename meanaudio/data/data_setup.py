@@ -1,5 +1,6 @@
 import logging
 import random
+import time
 
 import numpy as np
 import torch
@@ -40,23 +41,47 @@ def setup_training_datasets(cfg: DictConfig) -> tuple[Dataset, DistributedSample
         audiocaps_mini = load_audio_data(cfg, cfg.data.AudioCaps_val_npz)  # use val set as the miniset
         dataset = MultiModalDataset([],
                                     [audiocaps_mini])
-            
-    else: 
 
-        audiocaps_npz = load_audio_data(cfg, cfg.data.AudioCaps_npz) 
-        # !TODO: think of a better way to handle different datasets
-        
-        # freesound1_npz = load_audio_data_npz(cfg, cfg.data.FreeSound1_npz)
-        # freesound2_npz = load_audio_data_npz(cfg, cfg.data.FreeSound2_npz)
-        # freesound3_npz = load_audio_data_npz(cfg, cfg.data.FreeSound3_npz)
+    else:
+        datasets = []
+        if 'audioset' in cfg.datasets:
+            start_time = time.time()
+            audioset_npz = load_audio_data(cfg, cfg.data.AudioSet)
+            datasets.append(audioset_npz)
+            end_time = time.time()
+            log.info(f'Loaded audioset in {end_time - start_time} seconds')
+        if 'fma' in cfg.datasets:
+            fma_npz = load_audio_data(cfg, cfg.data.FMA_npz) 
+            datasets.append(fma_npz)
+        if 'freesound_30s' in cfg.datasets:
+            freesound_npz = load_audio_data(cfg, cfg.data.FreeSound_30s)
+            datasets.append(freesound_npz)
+        if 'freesound_10s' in cfg.datasets:
+            freesound_npz = load_audio_data(cfg, cfg.data.FreeSound_10s)
+            datasets.append(freesound_npz)
+        if 'musiccaps' in cfg.datasets:
+            musiccaps_npz = load_audio_data(cfg, cfg.data.MusicCaps)
+            datasets.append(musiccaps_npz)
+        if 'mtt' in cfg.datasets:
+            mtts_npz = load_audio_data(cfg, cfg.data.MTT)
+            datasets.append(mtts_npz)
+        if 'audiocaps' in cfg.datasets:
+            audiocaps_npz = load_audio_data(cfg, cfg.data.AudioCaps_npz)
+            datasets += [audiocaps_npz] * cfg.ac_oversample_rate
+        if 'bbc_sound_effects' in cfg.datasets:
+            bbc_npz = load_audio_data(cfg, cfg.data.BBC_SoundEffects)
+            datasets.append(bbc_npz)
+        if 'audioset_sl' in cfg.datasets:
+            audioset_sl_npz = load_audio_data(cfg, cfg.data.AudioSet_SL)
+            datasets.append(audioset_sl_npz)
+        if 'vggsound' in cfg.datasets:
+            vggsound_npz = load_audio_data(cfg, cfg.data.VGGSound)
+            datasets.append(vggsound_npz)
+        if 'jamendomaxcaps' in cfg.datasets:
+            jamendomaxcaps_npz = load_audio_data(cfg, cfg.data.JamendoMaxCaps)
+            datasets.append(jamendomaxcaps_npz)
 
-        # audioset_sl_npz = load_audio_data_npz(cfg, cfg.data.AudioSetSL_npz)
-        # bbcsound_npz = load_audio_data_npz(cfg, cfg.data.BBCSound_npz)
-        # clotho_npz = load_audio_data_npz(cfg, cfg.data.Clotho_npz)
-
-        dataset = MultiModalDataset([], [audiocaps_npz]) 
-        # dataset = MultiModalDataset([], [audiocaps_npz]*cfg.ac_oversample_rate + [audioset_sl_npz, bbcsound_npz, clotho_npz,  
-        #                                                                         freesound1_npz, freesound2_npz, freesound3_npz])
+        dataset = MultiModalDataset([], datasets)                                                                         
         
         
     batch_size = cfg.batch_size  # per-gpu batch size
@@ -97,13 +122,13 @@ def setup_val_datasets(cfg: DictConfig) -> tuple[Dataset, DataLoader, DataLoader
     pin_memory = cfg.pin_memory
     _, val_loader = construct_loader(dataset,
                                      val_batch_size,
-                                     num_workers,
+                                     0,  # num_workers=0
                                      shuffle=False,
                                      drop_last=False,
                                      pin_memory=pin_memory)
     _, eval_loader = construct_loader(dataset,
                                       val_eval_batch_size,
-                                      num_workers,
+                                      0, #  num_workers=0
                                       shuffle=False,
                                       drop_last=False,
                                       pin_memory=pin_memory)
@@ -124,7 +149,13 @@ def construct_loader(dataset: Dataset,
                      drop_last: bool = True,
                      pin_memory: bool = False,
                      error_avoidance: bool = False) -> tuple[DistributedSampler, DataLoader]:
-    train_sampler = DistributedSampler(dataset, rank=local_rank, shuffle=shuffle)
+    import torch.distributed as dist
+    # Use global rank for proper data distribution across multiple nodes
+    # local_rank only works correctly for single-machine multi-GPU
+    global_rank = dist.get_rank() if dist.is_initialized() else 0
+    world_size = dist.get_world_size() if dist.is_initialized() else 1
+    
+    train_sampler = DistributedSampler(dataset, num_replicas=world_size, rank=global_rank, shuffle=shuffle)
     train_loader = DataLoader(dataset,
                               batch_size,
                               sampler=train_sampler,

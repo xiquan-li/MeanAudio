@@ -3,11 +3,11 @@
 version: 1
 formatters:
   simple:
-    format: '[%(asctime)s][%(levelname)s][r${oc.env:LOCAL_RANK}] - %(message)s'
+    format: '[%(asctime)s CST][%(levelname)s][global_r${oc.env:RANK,0}] - %(message)s'
     datefmt: '%Y-%m-%d %H:%M:%S'
   colorlog:
     '()': 'colorlog.ColoredFormatter'
-    format: '[%(cyan)s%(asctime)s%(reset)s][%(blue)sr${oc.env:LOCAL_RANK}%(reset)s][%(log_color)s%(levelname)s%(reset)s] - %(message)s'
+    format: '[%(cyan)s%(asctime)s CST%(reset)s][%(blue)sglobal_r${oc.env:RANK,0}%(reset)s][%(log_color)s%(levelname)s%(reset)s] - %(message)s'
     datefmt: '%Y-%m-%d %H:%M:%S'
     log_colors:
       DEBUG: purple
@@ -24,7 +24,7 @@ handlers:
     class: logging.FileHandler
     formatter: simple
     # absolute file path
-    filename: ${hydra.runtime.output_dir}/train-${now:%Y-%m-%d_%H-%M-%S}-rank${oc.env:LOCAL_RANK}.log
+    filename: ${hydra.runtime.output_dir}/train-${now:%Y-%m-%d_%H-%M-%S}-global_rank${oc.env:RANK,0}.log
     mode: w
 root:
   level: INFO

@@ -17,11 +17,11 @@ from torch.nn.parallel import DistributedDataParallel as DDP
 
 from meanaudio.model.flow_matching import FlowMatching
 from meanaudio.model.networks import get_mean_audio
-from meanaudio.model.sequence_config import CONFIG_16K, CONFIG_44K
+from meanaudio.model.sequence_config import CONFIG_16K, CONFIG_44K, CONFIG_44K_30
 from meanaudio.model.utils.features_utils import FeaturesUtils
 from meanaudio.model.utils.parameter_groups import get_parameter_groups
 from meanaudio.model.utils.sample_utils import log_normal_sample
-from meanaudio.utils.dist_utils import (info_if_rank_zero, local_rank, string_if_rank_zero)
+from meanaudio.utils.dist_utils import (info_if_rank_zero, local_rank, string_if_rank_zero, get_global_rank)
 from meanaudio.utils.log_integrator import Integrator
 from meanaudio.utils.logger import TensorboardLogger
 from meanaudio.utils.time_estimator import PartialTimeEstimator, TimeEstimator
@@ -44,7 +44,7 @@ class RunnerFlowMatching:
         self.cfg = cfg
         self.use_wandb = cfg.get("use_wandb", False)
 
-        if self.use_wandb and local_rank == 0: 
+        if self.use_wandb and get_global_rank() == 0: 
             wandb.init(
                 project = "MeanAudio", 
                 name = cfg.exp_id, 
@@ -52,8 +52,17 @@ class RunnerFlowMatching:
             )
 
         # sequence config
-        self.seq_cfg = CONFIG_16K  # for 10s audio 
-        mode = '16k'
+        if cfg.model == 'meanaudio_m_full' or cfg.model == 'fluxaudio_m_full' or cfg.model == 'fluxaudio_s_full':
+            self.seq_cfg = CONFIG_44K  
+            mode = '44k'
+        elif cfg.model == 'fluxaudio_m_full_30':
+            self.seq_cfg = CONFIG_44K_30
+            mode = '44k'
+        elif cfg.model == 'fluxaudio_fm':
+            self.seq_cfg = CONFIG_16K  
+            mode = '16k'
+        else:
+            raise NotImplementedError(f'Model {cfg.model} not implemented')
 
         self.sample_rate = self.seq_cfg.sampling_rate
         self.duration_sec = self.seq_cfg.duration
@@ -86,14 +95,15 @@ class RunnerFlowMatching:
                                           use_rope=cfg.use_rope,
                                           text_c_dim=cfg.data_dim.text_c_dim).cuda(),
                            device_ids=[local_rank],
-                           broadcast_buffers=False)
+                           broadcast_buffers=False,
+                           find_unused_parameters=False)
 
         self.fm = FlowMatching(cfg.sampling.min_sigma,
                                inference_mode=cfg.sampling.method,
                                num_steps=cfg.sampling.num_steps)
 
         # ema profile
-        if for_training and cfg.ema.enable and local_rank == 0:
+        if for_training and cfg.ema.enable and get_global_rank() == 0:
             self.ema = PostHocEMA(self.network.module,
                                   sigma_rels=cfg.ema.sigma_rels,
                                   update_every=cfg.ema.update_every,
@@ -105,7 +115,7 @@ class RunnerFlowMatching:
             self.ema = None
 
         self.rng = torch.Generator(device='cuda')
-        self.rng.manual_seed(cfg['seed'] + local_rank)
+        self.rng.manual_seed(cfg['seed'] + get_global_rank())
 
         # setting up feature extractors and VAEs
         text_encoder_name = cfg['text_encoder_name']
@@ -159,7 +169,7 @@ class RunnerFlowMatching:
         # setting up optimizer and loss
         if for_training:
             self.enter_train()
-            parameter_groups = get_parameter_groups(self.network, cfg, print_log=(local_rank == 0))
+            parameter_groups = get_parameter_groups(self.network, cfg, print_log=(get_global_rank() == 0))
             self.optimizer = optim.AdamW(parameter_groups,
                                          lr=cfg['learning_rate'],
                                          weight_decay=cfg['weight_decay'],
@@ -313,7 +323,7 @@ class RunnerFlowMatching:
             self.train_integrator.finalize('train', it)
             self.train_integrator.reset_except_hooks()
 
-            if self.use_wandb and local_rank == 0: 
+            if self.use_wandb and get_global_rank() == 0: 
                 wandb.log(
                     {
                         "lr": lr,
@@ -465,7 +475,7 @@ class RunnerFlowMatching:
     @torch.inference_mode()
     def eval(self, audio_dir: Path, it: int, data_cfg: DictConfig) -> dict[str, float]:
         with torch.amp.autocast('cuda', enabled=False):
-            if local_rank == 0:
+            if get_global_rank() == 0:
                 extract(audio_path=audio_dir,
                         output_path=audio_dir / 'cache',
                         device='cuda',
@@ -483,7 +493,7 @@ class RunnerFlowMatching:
                     self.log.info(f'{data_cfg.tag}/{k:<10}: {v:.10f}')
                     if k in ["FD-VGG", "FD-PASST", "FD-PANN", "MS-CLAP-Score",
                               "LAION-CLAP-Score", "ISC-PANNS-mean", "KL-PANNS-softmax"]: 
-                        if self.use_wandb and local_rank == 0: 
+                        if self.use_wandb and get_global_rank() == 0: 
                             wandb.log({f'{data_cfg.tag}/{k}': v}, step=it)
                     
             else:
@@ -492,7 +502,7 @@ class RunnerFlowMatching:
         return output_metrics
 
     def save_weights(self, it, save_copy=False):  # only save net's weights
-        if local_rank != 0:
+        if get_global_rank() != 0:
             return
 
         os.makedirs(self.run_path, exist_ok=True)
@@ -512,7 +522,7 @@ class RunnerFlowMatching:
         self.log.info(f'Network weights saved to {model_path}.')
 
     def save_checkpoint(self, it, save_copy=False):  # save it, optim, net together
-        if local_rank != 0:
+        if get_global_rank() != 0:
             return
 
         checkpoint = {

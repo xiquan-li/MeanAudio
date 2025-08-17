@@ -101,6 +101,79 @@ def main():
     net.update_seq_lengths(seq_cfg.latent_seq_len)
     prompts: str = [args.prompt]
 
+    # prompts_gpt_music = [
+    #     "A bright acoustic guitar melody with gentle piano accents, evoking sunlight filtering through forest leaves.",
+    #     "Heavy bass and driving drums that feel like speeding through the city at night.",
+    #     "Soft strings intertwined with airy vocals, creating a dreamlike atmosphere.",
+    #     "Pulsating electronic synths with shifting tones, like walking through a neon-lit future city.",
+    #     "Slow piano and cello interplay, deep and emotional, telling a forgotten story.",
+    #     "Lively brass and Latin percussion, bursting with carnival energy.",
+    #     "Minimal ambient textures with long sustained notes, like wandering alone across a snowy plain.",
+    #     "Explosive guitar riffs with raw, shouted vocals, full of unrestrained power.",
+    #     "Layered choir harmonies over an electronic beat, like drifting weightlessly through space.",
+    #     "Crisp marimba and warm bass grooves, perfect for a lazy afternoon.",
+    #     "Hypnotic tribal drums layered with chanting voices, evoking an ancient ritual.",
+    #     "Smooth jazz saxophone over mellow bass, glowing with late-night warmth.",
+    #     "Rapid violin runs over a fast-paced orchestral background, brimming with tension.",
+    #     "Deep house beats and shimmering synth pads, ideal for a midnight dance floor.",
+    #     "Gentle harp glissandos under a soft flute melody, like a spring morning in a garden.",
+    #     "Powerful orchestral brass with rolling timpani, evoking a heroic battle scene.",
+    #     "Lo-fi beats with vinyl crackle, giving a cozy bedroom vibe.",
+    #     "Melancholic piano chords layered with distant rain sounds, evoking quiet introspection.",
+    #     "Upbeat funk guitar riffs and tight snare hits, impossible not to dance to.",
+    #     "Swelling cinematic strings with distant choirs, evoking a sense of awe and wonder.",
+    #     "Minimal techno with hypnotic repetition, perfect for deep focus.",
+    #     "Warm Rhodes piano chords and slow bass, dripping with soulful elegance.",
+    #     "Aggressive double-kick drumming under distorted guitars, pure metal energy.",
+    #     "Soft ukulele strums with playful whistles, evoking a sunny beachside.",
+    #     "Experimental glitch beats with fragmented vocal samples, unpredictable and futuristic.",
+    #     "Emotional ballad vocals soaring over grand piano, heartfelt and intimate.",
+    #     "Dark ambient drones with eerie metallic textures, evoking an abandoned industrial site.",
+    #     "Fast bluegrass banjo picking with lively fiddle, radiating rustic charm.",
+    #     "Sparkling synthesizers over a steady dance beat, full of optimism.",
+    #     "Slow gospel choir harmonies rising into a powerful climax, filled with spiritual strength."
+    # ]
+    prompts_fma = [
+        "A lively and energetic 90s hip-hop rap song celebrating carefree living.",
+        "Upbeat and empowering hip-hop celebrating black culture and resilience in America.",
+        "A fast-paced rap/hip-hop track from the 90s reflecting the struggles and lifestyle of a rapper.",
+        "This energetic and youthful pop song incorporates elements of electronic and synthpop, evoking nostalgia for 80s and 90s pop culture with catchy melodies and synthesized sounds.",
+        "This energetic and upbeat track blends elements of rock, alternative, and indie music reminiscent of the 2000s.",
+        "A lively blend of jazz and funk with an upbeat tempo, perfect for dancing and reminiscent of the 70s and 80s, offering a nostalgic yet fresh sound.",
+        "A mellow mix of rock and indie with British influences and thoughtful lyrics sung by a male vocalist, ideal for unwinding.",
+        "A melancholic blend of indie, folk, and singer-songwriter styles with introspective lyrics on themes of love and loss.",
+        "A soothing blend of rock and blues with a mellow vibe, centered around themes of love and heartbreak.",
+        "A fast-tempo, energetic hip-hop song from the 90s with a fusion of funk, featuring lyrics about love and relationships.",
+        "Experimental, avant-garde, and noisy music with a slow tempo and a dark, unsettling mood, featuring a unique and unconventional sound blending Loud-Rock and Psych-Rock elements.",
+        "A hypnotic and immersive blend of ambient, experimental, and noise genres with a slow tempo and avant-garde style.",
+        "A lively and energetic cover of a classic rock song from the 1970s.",
+        "A melancholic Baroque classical piece featuring intricate harpsichord melodies and harmonies, evoking grandeur and majesty.",
+        "This 1960s music combines rock and roll, blues, and classic rock with a guitar-heavy sound, featuring lyrics about rebellion and freedom.",
+        "A lively and catchy fusion of rock, pop, and alternative with a youthful, energetic vibe, perfect for dancing.",
+        "This melancholic folk song explores themes of love, loss, and introspection.",
+        "A fast-paced instrumental piece with a classical vibe featuring stringed instruments, evoking an energetic and uplifting mood.",
+        "An energetic blend of jazz, funk, and ska with a driving rhythm and catchy melodies, perfect for dancing.",
+        "A lively fusion of jazz, funk, and avant-garde with unconventional instruments and experimental flair.",
+        "A unique and captivating blend of jazz, funk, and avant-garde styles with complex harmonies and intricate rhythms.",
+        "The music combines jazz, funk, and ska with a lively and energetic tempo reminiscent of the 80s and 90s.",
+        "A high-energy blend of hard rock and heavy metal with rebellious themes, ideal for action scenes in movies or video games.",
+        "The music is a dark ambient piece with haunting soundscapes that evoke unease and tension."
+    ]
+
+    prompts_music = [
+        'Guitar and piano playing a warm music, with a soft and gentle melody, perfect for a romantic evening.',
+    ]
+
+    # prompts = [args.prompt]
+    prompts = [
+        'Guitar and piano playing a warm music, with a soft and gentle melody, perfect for a romantic evening.',
+        'A lively and energetic 90s hip-hop rap song celebrating carefree living.',
+        'Generate an audio clip that starts with people cheering, then people crying, and ends with gunshots',
+        'Battlefield scene, continuous roar of artillery and gunfire, high fidelity, the sharp crack of bullets, the thundering explosions of bombs, and the screams of wounded soldier.', 
+        'Pop music that upbeat, catchy, and easy to listen, high fidelity, with simple melodies, electronic instruments and polished production.	', 
+        'The steady crashing of waves against the shore,high fidelity, the whooshing sound of water receding back into the ocean, the sound of seagulls and other coastal birds, and the distant sound of ships or boats.',
+        'Two space shuttles are fighting in the space.'
+    ]
    
     if args.use_meanflow:
         for prompt in tqdm(prompts): 

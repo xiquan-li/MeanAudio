@@ -101,6 +101,7 @@ class MeanFlow():
         return t, r
     
     def to_prior(self, fn: Callable, x1: torch.Tensor) -> torch.Tensor:
+        raise NotImplementedError('to_prior is not implemented for MeanFlow')
         return self.run_t0_to_t1(fn, x1)
 
     @torch.no_grad()
@@ -110,13 +111,14 @@ class MeanFlow():
     def run_t0_to_t1(self, fn: Callable, x0: torch.Tensor) -> torch.Tensor:
         t = torch.ones((x0.shape[0],), device=x0.device,dtype=x0.dtype)
         r = torch.zeros((x0.shape[0],), device=x0.device,dtype=x0.dtype)
-        steps = torch.linspace(1, 0, self.steps + 1).to(device=x0.device,dtype=x0.dtype)
+        steps = torch.linspace(1, 0, self.steps + 1).to(device=x0.device, dtype=x0.dtype)
         for ti, t in enumerate(steps[:-1]):
             t = t.expand(x0.shape[0])
             next_t = steps[ti + 1].expand(x0.shape[0])
             u_flow = fn(t=t, r=next_t, x=x0)
             dt = (t - next_t).mean()
             x0 = x0 - dt * u_flow
+            # x0 = x0 + dt * u_flow
         return x0
 
     def loss(self,
@@ -128,8 +130,7 @@ class MeanFlow():
             text_f_c_undrop: torch.Tensor,
             empty_string_feat: torch.Tensor,
             empty_string_feat_c: torch.Tensor):
-        if isinstance(fn, torch.nn.parallel.DistributedDataParallel):
-            fn = fn.module
+            
         batch_size = x0.shape[0]
         device = x0.device
         e = torch.randn_like(x0)
@@ -138,6 +139,7 @@ class MeanFlow():
         r_ = rearrange(r, "b -> b 1 1 ")
         z = (1 - t_) * x0 + t_ * e  # r < t
         v = e - x0
+        # v = x0 - e
         
         if self.w is not None:
             u_text_f = empty_string_feat.expand(batch_size, -1, -1)

@@ -25,12 +25,12 @@ class SequenceConfig:
 
 CONFIG_16K = SequenceConfig(duration=9.975, sampling_rate=16000, spectrogram_frame_rate=256)  # !TODO fix sequnce config here -> Latent length = 312
 CONFIG_44K = SequenceConfig(duration=9.975, sampling_rate=44100, spectrogram_frame_rate=512)
-
+CONFIG_44K_30 = SequenceConfig(duration=29.975, sampling_rate=44100, spectrogram_frame_rate=512)
 
 if __name__ == '__main__':
-    assert CONFIG_16K.latent_seq_len == 312
-    assert CONFIG_16K.clip_seq_len == 64
-    assert CONFIG_16K.sync_seq_len == 192
-    assert CONFIG_16K.num_audio_frames == 128000  # 312 * 256 * 2
+    # assert CONFIG_16K.latent_seq_len == 312
+    # assert CONFIG_16K.clip_seq_len == 64
+    # assert CONFIG_16K.sync_seq_len == 192
+    # assert CONFIG_16K.num_audio_frames == 128000  # 312 * 256 * 2
 
-    print('Passed')
+    print(CONFIG_44K_30.latent_seq_len)

@@ -1,58 +1,87 @@
-# AudioCaps 
+# FMA
+FMA_npz: 
+  tsv: /apdcephfs_gy4/share_302507476/xiquanli/data/FMA/npz/fma_full_30s_meta.tsv
+  npz_dir: /apdcephfs_gy4/share_302507476/xiquanli/data/FMA/npz/fma_full_30s
+  repa_npz_dir: null
+
+
+# AudioSet
+AudioSet: 
+  tsv: /apdcephfs_gy4/share_302507476/xiquanli/data/AudioSet/npz_dir/unbal_train_10s_meta.tsv
+  npz_dir: /apdcephfs_gy4/share_302507476/xiquanli/data/AudioSet/npz_dir/unbal_train_10s
+  repa_npz_dir: null
+
+
+# WavCaps
+FreeSound_30s:
+  tsv: /apdcephfs_gy4/share_302507476/xiquanli/data/WavCaps/npz_dir/FreeSound-30s_meta.tsv
+  npz_dir: /apdcephfs_gy4/share_302507476/xiquanli/data/WavCaps/npz_dir/FreeSound-30s
+  repa_npz_dir: null
+
+AudioSet_SL: 
+  tsv: /apdcephfs_gy4/share_302507476/xiquanli/data/WavCaps/npz_dir/AudioSet_SL_meta.tsv
+  npz_dir: /apdcephfs_gy4/share_302507476/xiquanli/data/WavCaps/npz_dir/AudioSet_SL
+  repa_npz_dir: null
+
+FreeSound_10s: 
+  tsv: /apdcephfs_gy4/share_302507476/xiquanli/data/WavCaps/npz_dir/FreeSound-10s_meta.tsv
+  npz_dir: /apdcephfs_gy4/share_302507476/xiquanli/data/WavCaps/npz_dir/FreeSound-10s
+  repa_npz_dir: null
+
+BBC_SoundEffects:
+  tsv: /apdcephfs_gy4/share_302507476/xiquanli/data/WavCaps/npz_dir/BBC_Sound_Effects_10s_meta.tsv   
+  npz_dir: /apdcephfs_gy4/share_302507476/xiquanli/data/WavCaps/npz_dir/BBC_Sound_Effects_10s      
+  repa_npz_dir: null
+
+
+# MusicCaps
+MusicCaps:
+  tsv: /apdcephfs_gy4/share_302507476/xiquanli/data/LP_MusicCaps_MC/npz_dir/MusicCaps_10s_meta.tsv
+  npz_dir: /apdcephfs_gy4/share_302507476/xiquanli/data/LP_MusicCaps_MC/npz_dir/MusicCaps_10s
+  repa_npz_dir: null
+
+
+# MTT
+MTT:
+  tsv: /apdcephfs_gy4/share_302507476/xiquanli/data/LP_MusicCaps_MTT/npz_dir/MTT_10s_meta.tsv
+  npz_dir: /apdcephfs_gy4/share_302507476/xiquanli/data/LP_MusicCaps_MTT/npz_dir/MTT_10s
+  repa_npz_dir: null
+
+
+# JamendoMaxCaps
+JamendoMaxCaps:
+  tsv: /apdcephfs_gy4/share_302507476/xiquanli/data/JamendoMaxCaps/npz_dir/JamendoMaxCaps_30s_meta.tsv
+  npz_dir: /apdcephfs_gy4/share_302507476/xiquanli/data/JamendoMaxCaps/npz_dir/JamendoMaxCaps_30s
+  repa_npz_dir: null
+
+
+# AudioCaps
 AudioCaps_npz: 
-  tag: train
-  tsv: data/audiocaps/train-memmap.tsv
-  npz_dir: data/audiocaps/train-npz-t5-clap
-  output_subdir: null
+  tsv: /apdcephfs_gy4/share_302507476/xiquanli/data/AudioCaps/npz/train-npz-44k_meta.tsv 
+  npz_dir: /apdcephfs_gy4/share_302507476/xiquanli/data/AudioCaps/npz/train-npz-44k
   repa_npz_dir: null
 
 AudioCaps_val_npz: 
   tag: val
-  tsv: data/audiocaps/val-memmap.tsv
-  npz_dir: data/audiocaps/val-npz-t5-clap
+  # tsv: ../MeanAudio/data/audiocaps/val-memmap.tsv
+  tsv: /apdcephfs_gy4/share_302507476/xiquanli/TTA/FluxAudio/sets/val-audiocaps.tsv
+  npz_dir: /apdcephfs_gy4/share_302507476/xiquanli/data/AudioCaps/npz/val-npz-44k
   output_subdir: null
   repa_npz_dir: null
-  gt_cache: data/audiocaps/val-features
+  gt_cache: /apdcephfs_gy4/share_302507476/xiquanli/TTA/MeanAudio/data/audiocaps/val-features
 
 AudioCaps_test_npz: 
   tag: test
-  tsv: data/audiocaps/test-memmap.tsv
-  npz_dir: data/audiocaps/test-npz-t5-clap
+  tsv: /apdcephfs_gy4/share_302507476/xiquanli/TTA/FluxAudio/sets/test-audiocaps.tsv
+  npz_dir: /apdcephfs_gy4/share_302507476/xiquanli/data/AudioCaps/npz/test-npz-44k
   output_subdir: null
   repa_npz_dir: null
-  gt_cache: data/audiocaps/test-features
+  gt_cache: /apdcephfs_gy4/share_302507476/xiquanli/TTA/MeanAudio/data/audiocaps/test-features
 
-latent_mean: 'sets/latent_mean.pt'
-latent_std: 'sets/latent_std.pt'
-
-# Clotho
-Clotho_npz:
-  tsv: /hpc_stor03/sjtu_home/xiquan.li/data/MMAudio/clotho/dev-memmap-t5-clap.tsv
-  npz_dir: /hpc_stor03/sjtu_home/xiquan.li/data/MMAudio/clotho/dev-npz-t5-clap
+VGGSound:
+  tsv: /apdcephfs_gy4/share_302507476/xiquanli/data/VGGSound/npz_dir/VGGSound_10s_meta.tsv
+  npz_dir: /apdcephfs_gy4/share_302507476/xiquanli/data/VGGSound/npz_dir/VGGSound_10s
   repa_npz_dir: null
 
-# WavCaps 
-AudioSetSL_npz: 
-  tsv: /hpc_stor03/sjtu_home/xiquan.li/data/MMAudio/wavcaps/audioset-sl-memmap-t5-clap.tsv
-  npz_dir: /hpc_stor03/sjtu_home/xiquan.li/data/MMAudio/wavcaps/audioset-sl-npz-t5-clap
-  repa_npz_dir: null
-
-BBCSound_npz: 
-  tsv: /hpc_stor03/sjtu_home/xiquan.li/data/MMAudio/wavcaps/bbc-sound-effects-memmap-t5-clap.tsv
-  npz_dir: /hpc_stor03/sjtu_home/xiquan.li/data/MMAudio/wavcaps/bbc-sound-effects-npz-t5-clap
-  repa_npz_dir: null
-
-FreeSound1_npz:
-  tsv: /hpc_stor03/sjtu_home/junxi.liu/shared/freesound-memmap-t5-clap-1.tsv
-  npz_dir: /hpc_stor03/sjtu_home/junxi.liu/shared/freesound-npz-t5-clap-1
-  repa_npz_dir: null
-
-FreeSound2_npz:
-  tsv: /hpc_stor03/sjtu_home/junxi.liu/shared/freesound-memmap-t5-clap-2.tsv
-  npz_dir: /hpc_stor03/sjtu_home/junxi.liu/shared/freesound-npz-t5-clap-2
-  repa_npz_dir: null
-
-FreeSound3_npz:
-  tsv: /hpc_stor03/sjtu_home/junxi.liu/shared/freesound-memmap-t5-clap-3.tsv
-  npz_dir: /hpc_stor03/sjtu_home/junxi.liu/shared/freesound-npz-t5-clap-3
-  repa_npz_dir: null
+latent_mean: '/apdcephfs_gy4/share_302507476/xiquanli/data/AudioSet/latent_mean.pt'
+latent_std: '/apdcephfs_gy4/share_302507476/xiquanli/data/AudioSet/latent_std.pt'

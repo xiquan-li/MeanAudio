@@ -1,0 +1,70 @@
+# AudioCaps 
+AudioCaps_npz: 
+  tag: train
+  tsv: data/audiocaps/train-memmap.tsv
+  npz_dir: data/audiocaps/train-npz-t5-clap
+  output_subdir: null
+  repa_npz_dir: null
+
+AudioCaps_val_npz: 
+  tag: val
+  tsv: data/audiocaps/val-memmap.tsv
+  npz_dir: data/audiocaps/val-npz-t5-clap
+  output_subdir: null
+  repa_npz_dir: null
+  gt_cache: data/audiocaps/val-features
+
+AudioCaps_test_npz: 
+  tag: test
+  tsv: data/audiocaps/test-memmap.tsv
+  npz_dir: data/audiocaps/test-npz-t5-clap
+  output_subdir: null
+  repa_npz_dir: null
+  gt_cache: data/audiocaps/test-features
+
+latent_mean: 'sets/latent_mean.pt'
+latent_std: 'sets/latent_std.pt'
+
+# Clotho
+# Clotho_npz:
+#   tsv: /hpc_stor03/sjtu_home/xiquan.li/data/MMAudio/clotho/dev-memmap-t5-clap.tsv
+#   npz_dir: /hpc_stor03/sjtu_home/xiquan.li/data/MMAudio/clotho/dev-npz-t5-clap
+#   repa_npz_dir: null
+
+# AudioSet
+AudioSet: 
+  tsv: /apdcephfs_gy4/share_302507476/xiquanli/data/AudioSet/npz_dir/unbal_train_10s_16k_meta.tsv
+  npz_dir: /apdcephfs_gy4/share_302507476/xiquanli/data/AudioSet/npz_dir/unbal_train_10s_16k
+  repa_npz_dir: null
+
+# WavCaps
+AudioSet_SL: 
+  tsv: /apdcephfs_gy4/share_302507476/xiquanli/data/WavCaps/npz_dir/AudioSet_SL_16k_meta.tsv
+  npz_dir: /apdcephfs_gy4/share_302507476/xiquanli/data/WavCaps/npz_dir/AudioSet_SL_16k
+  repa_npz_dir: null
+
+FreeSound_10s: 
+  tsv: /apdcephfs_gy4/share_302507476/xiquanli/data/WavCaps/npz_dir/FreeSound-10s_16k_meta.tsv
+  npz_dir: /apdcephfs_gy4/share_302507476/xiquanli/data/WavCaps/npz_dir/FreeSound-10s_16k
+  repa_npz_dir: null
+
+BBC_SoundEffects:
+  tsv: /apdcephfs_gy4/share_302507476/xiquanli/data/WavCaps/npz_dir/BBC_Sound_Effects_10s_16k_meta.tsv   
+  npz_dir: /apdcephfs_gy4/share_302507476/xiquanli/data/WavCaps/npz_dir/BBC_Sound_Effects_10s_16k      
+  repa_npz_dir: null
+
+# VGGSound
+VGGSound:
+  tsv: /apdcephfs_gy4/share_302507476/xiquanli/data/VGGSound/npz_dir/VGGSound_10s_16k_meta.tsv
+  npz_dir: /apdcephfs_gy4/share_302507476/xiquanli/data/VGGSound/npz_dir/VGGSound_10s_16k
+  repa_npz_dir: null
+
+MusicCaps:
+  tsv: /apdcephfs_gy4/share_302507476/xiquanli/data/LP_MusicCaps_MC/npz_dir/MusicCaps_10s_16k_meta.tsv
+  npz_dir: /apdcephfs_gy4/share_302507476/xiquanli/data/LP_MusicCaps_MC/npz_dir/MusicCaps_10s_16k
+  repa_npz_dir: null
+
+MTT:
+  tsv: /apdcephfs_gy4/share_302507476/xiquanli/data/LP_MusicCaps_MTT/npz_dir/MTT_10s_16k_meta.tsv
+  npz_dir: /apdcephfs_gy4/share_302507476/xiquanli/data/LP_MusicCaps_MTT/npz_dir/MTT_10s_16k
+  repa_npz_dir: null

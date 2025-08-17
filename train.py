@@ -17,11 +17,11 @@ from omegaconf import DictConfig, open_dict
 from torch.distributed.elastic.multiprocessing.errors import record
 
 from meanaudio.data.data_setup import setup_training_datasets, setup_val_datasets
-from meanaudio.model.sequence_config import CONFIG_16K, CONFIG_44K
+from meanaudio.model.sequence_config import CONFIG_16K, CONFIG_44K, CONFIG_44K_30
 from meanaudio.runner_flowmatching import RunnerFlowMatching
 from meanaudio.runner_meanflow import RunnerMeanFlow
 from meanaudio.sample import sample
-from meanaudio.utils.dist_utils import info_if_rank_zero, local_rank, world_size
+from meanaudio.utils.dist_utils import info_if_rank_zero, local_rank, world_size, get_global_rank
 from meanaudio.utils.logger import TensorboardLogger
 from meanaudio.utils.synthesize_ema import synthesize_ema
 import os
@@ -46,9 +46,9 @@ def train(cfg: DictConfig):
     # debug setting
     if cfg.get("debug", False): 
         import debugpy
-        if "RANK" not in os.environ or int(os.environ["RANK"]) == 0:
+        if get_global_rank() == 0:
             debugpy.listen(6665) 
-            print(f'Waiting for debugger attach (rank {os.environ["RANK"]})...')
+            print(f'Waiting for debugger attach (rank {get_global_rank()})...')
             debugpy.wait_for_client()  
 
     # initial setup
@@ -59,7 +59,15 @@ def train(cfg: DictConfig):
     run_dir = HydraConfig.get().run.dir
 
     # patch data dim
-    seq_cfg = CONFIG_16K  # we only support 16k for now
+    if cfg.model == 'meanaudio_m_full' or cfg.model == 'fluxaudio_m_full' or cfg.model == 'fluxaudio_s_full':
+        seq_cfg = CONFIG_44K  
+    elif cfg.model == 'fluxaudio_m_full_30':
+        seq_cfg = CONFIG_44K_30
+    elif cfg.model == 'meanaudio_mf' or cfg.model == 'fluxaudio_fm' or cfg.model == 'meanaudio_large':
+        seq_cfg = CONFIG_16K  
+    else:
+        raise ValueError(f'Invalid model: {cfg.model}')
+
     with open_dict(cfg):
         cfg.data_dim.latent_seq_len = seq_cfg.latent_seq_len  # update sequence config here
 
@@ -67,7 +75,7 @@ def train(cfg: DictConfig):
     log = TensorboardLogger(cfg.exp_id,
                             run_dir,
                             logging.getLogger(),
-                            is_rank0=(local_rank == 0),
+                            is_rank0=(get_global_rank() == 0),
                             enable_email=cfg.enable_email and not cfg.debug)
 
     info_if_rank_zero(log, f'All configuration: {cfg}')
@@ -96,10 +104,11 @@ def train(cfg: DictConfig):
     dataset, sampler, loader = setup_training_datasets(cfg)
     info_if_rank_zero(log, f'Number of training samples: {len(dataset)}')
     info_if_rank_zero(log, f'Number of training batches: {len(loader)}')
-
-    val_dataset, val_loader, eval_loader = setup_val_datasets(cfg)  # same dataset (val_dataset) but with different dataloader
-    info_if_rank_zero(log, f'Number of val samples: {len(val_dataset)}')
-    val_cfg = cfg.data.AudioCaps_val_npz  # tsv and memmap dir 
+    
+    if cfg.do_eval:
+        val_dataset, val_loader, eval_loader = setup_val_datasets(cfg)  # same dataset (val_dataset) but with different dataloader
+        info_if_rank_zero(log, f'Number of val samples: {len(val_dataset)}')
+        val_cfg = cfg.data.AudioCaps_val_npz  # tsv and memmap dir 
 
     # compute and set mean and std
     latent_mean, latent_std = torch.load(cfg.data.latent_mean), torch.load(cfg.data.latent_std)
@@ -161,7 +170,7 @@ def train(cfg: DictConfig):
     # training loop
     try:
         # Need this to select random bases in different workers
-        np.random.seed(np.random.randint(2**30 - 1) + local_rank * 1000)
+        np.random.seed(np.random.randint(2**30 - 1) + get_global_rank() * 1000)
         while curr_iter < total_iterations:
             # Crucial for randomness!
             sampler.set_epoch(current_epoch)  # guarantee each epoch has different shuffling
@@ -173,7 +182,7 @@ def train(cfg: DictConfig):
             for data in loader:
                 trainer.train_pass(data, curr_iter)
 
-                if (curr_iter + 1) % cfg.val_interval == 0:  
+                if (curr_iter + 1) % cfg.val_interval == 0 and cfg.do_eval:  
                     # swap into a eval rng state, i.e., use the same seed for every validation pass
                     train_rng_snapshot = trainer.rng.graphsafe_get_state()
                     trainer.rng.graphsafe_set_state(eval_rng_clone)
@@ -208,7 +217,7 @@ def train(cfg: DictConfig):
                     trainer.val_integrator.finalize('val', curr_iter, ignore_timer=True)
                     trainer.rng.graphsafe_set_state(train_rng_snapshot)
 
-                if (curr_iter + 1) % cfg.eval_interval == 0:
+                if (curr_iter + 1) % cfg.eval_interval == 0 and cfg.do_eval:
                     save_eval = (curr_iter + 1) % cfg.save_eval_interval == 0
                     train_rng_snapshot = trainer.rng.graphsafe_get_state()
                     trainer.rng.graphsafe_set_state(eval_rng_clone)
@@ -241,7 +250,7 @@ def train(cfg: DictConfig):
     torch.cuda.empty_cache()
 
     # Synthesize EMA
-    if local_rank == 0:
+    if get_global_rank() == 0:
         log.info(f'Synthesizing EMA with sigma={cfg.ema.default_output_sigma}')
         ema_sigma = cfg.ema.default_output_sigma
         state_dict = synthesize_ema(cfg, ema_sigma, step=None)
