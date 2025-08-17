@@ -16,13 +16,13 @@ torch.backends.cuda.matmul.allow_tf32 = True
 torch.backends.cudnn.allow_tf32 = True
 log = logging.getLogger()
 
+
 @torch.inference_mode()
-def MeanAudioDemo(
+def MeanAudioDemoInfer(
     prompt='',
     negative_prompt='',
-    model_path='',
     encoder_name='t5_clap',
-    variant='meanaudio_mf',
+    variant='meanaudio_s',
     duration=10,
     cfg_strength=0,  # for meanflow, cfg_strength is integrated in training, and thus don't need to be specified here
     num_steps=1,
@@ -72,19 +72,16 @@ def MeanAudioDemo(
     if duration <= 0 or num_steps <= 0:
         raise ValueError("Duration and number of steps must be positive.")
     if variant not in all_model_cfg:
-         raise ValueError(f"Unknown model variant: {variant}. Available: {list(all_model_cfg.keys())}")
-    if not model_path or model_path == '':
-        model_path = Path(f'./weights/{variant}.pth')
-    else:
-        model_path = Path(model_path)
+        raise ValueError(f"Unknown model variant: {variant}. Available: {list(all_model_cfg.keys())}")
 
+    model_path = all_model_cfg[variant].model_path  # by default, this will use meanaudio_s_full.pth or fluxaudio_s_full.pth
     if not model_path.exists():
         log.info(f'Model not found at {model_path}')
         log.info('Downloading models to "./weights/"...')
         try:
             weights_dir = Path('./weights')
             weights_dir.mkdir(exist_ok=True)
-            snapshot_download(repo_id="junxiliu/Meanaudio", local_dir="./weights" )
+            snapshot_download(repo_id="AndreasXi/MeanAudio", local_dir="./weights" )
         except Exception as e:
             log.error(f"Failed to download model: {e}")
             raise FileNotFoundError(f"Model file not found and download failed: {model_path}, you may need to download the model manually.")
@@ -98,11 +95,12 @@ def MeanAudioDemo(
     net.load_weights(torch.load(model_path, map_location=device, weights_only=True))
     net.update_seq_lengths(seq_cfg.latent_seq_len)
     
-    if variant=='meanaudio_mf':
+    if variant=='meanaudio_s':
         use_meanflow=True
+
     if use_meanflow:
         generation_func = MeanFlow(steps=num_steps)
-        cfg_strength=0
+        cfg_strength=0  # for meanflow, cfg_strength is integrated in training, and thus don't need to be specified here
     else:
         generation_func = FlowMatching(min_sigma=0, inference_mode='euler', num_steps=num_steps)
     
@@ -145,9 +143,11 @@ def MeanAudioDemo(
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--prompt', type=str, help='Input prompt', default='A dog is barking')
-    parser.add_argument('--variant', type=str, help='Model variant', choices=['meanaudio_mf', 'fluxaudio_fm'], default='meanaudio_mf')
+    parser.add_argument('--variant', type=str, help='Model variant', choices=['meanaudio_s', 'fluxaudio_s'], default='meanaudio_s')
     parser.add_argument('--num_steps', type=int, help='Number of steps', default=1)
     args = parser.parse_args()
 
-    audio_path = MeanAudioDemo(args.prompt, args.variant)
+    audio_path = MeanAudioDemoInfer(prompt=args.prompt, 
+                               variant=args.variant, 
+                               num_steps=args.num_steps)
     log.info('Inference completed')

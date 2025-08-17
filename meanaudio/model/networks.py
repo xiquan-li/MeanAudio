@@ -577,7 +577,7 @@ class MeanAudio(nn.Module):
         return self._latent_seq_len
     
 
-def fluxaudio_fm(**kwargs) -> FluxAudio: 
+def fluxaudio_s(**kwargs) -> FluxAudio: 
     num_heads = 7
     return FluxAudio(latent_dim=20,
                      text_dim=1024,
@@ -587,7 +587,7 @@ def fluxaudio_fm(**kwargs) -> FluxAudio:
                      num_heads=num_heads,
                      latent_seq_len=312,  # for 10s audio
                      **kwargs)
-def meanaudio_mf(**kwargs) -> MeanAudio: 
+def meanaudio_s(**kwargs) -> MeanAudio: 
     num_heads = 7
     return MeanAudio(latent_dim=20,
                      text_dim=1024,
@@ -600,10 +600,10 @@ def meanaudio_mf(**kwargs) -> MeanAudio:
 
 
 def get_mean_audio(name: str, **kwargs) -> MeanAudio:
-    if name == 'meanaudio_mf':
-        return meanaudio_mf(**kwargs)
-    if name == 'fluxaudio_fm': 
-        return fluxaudio_fm(**kwargs)
+    if name == 'meanaudio_s':
+        return meanaudio_s(**kwargs)
+    if name == 'fluxaudio_s': 
+        return fluxaudio_s(**kwargs)
 
     raise ValueError(f'Unknown model name: {name}')
 
@@ -620,7 +620,7 @@ if __name__ == '__main__':
         ]
     )
 
-    network: MeanAudio = get_mean_audio('meanaudio_mf', 
+    network: MeanAudio = get_mean_audio('meanaudio_s', 
                                         use_rope=False, 
                                         text_c_dim=512)
 

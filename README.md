@@ -4,7 +4,7 @@
   <!-- <a href=>Paper</a> | <a href="https://meanaudio.github.io/">Webpage</a>  -->
 
   [![Webpage](https://img.shields.io/badge/Website-Visit-orange)](https://meanaudio.github.io/)
-  [![Hugging Face Model](https://img.shields.io/badge/Hugging%20Face-Model-brightgreen)](https://huggingface.co/junxiliu/MeanAudio)
+  [![Hugging Face Model](https://img.shields.io/badge/Hugging%20Face-Model-brightgreen)](https://huggingface.co/AndreasXi/MeanAudio)
   [![Paper](https://img.shields.io/badge/Paper-DOI-blue)](https://arxiv.org/abs/2508.06098)
 
 
@@ -12,6 +12,9 @@
 </p>
 </div>
 
+## News 🔥
+[Update Aug. 17, 2025] We present a new variant of MeanAudio: [meanaudio-s-full](https://huggingface.co/AndreasXi/MeanAudio/blob/main/meanaudio_s_full.pth): a 120M latent flow transformer trained with the MeanFlow objective on ~10,000 hours of audio data sourced from AudioCaps, AudioSet, WavCaps, VGGSound, MusicCaps, and LP-MusicCaps.
+It achieves state-of-the-art performance in single-step text-to-audio generation while being more stable and controllable. 
 
 ## Overview 
 MeanAudio is a novel MeanFlow-based model tailored for fast and faithful text-to-audio generation. It can synthesize realistic sound in a single step, achieving a real-time factor (RTF) of 0.013 on a single NVIDIA 3090 GPU. Moreover, it also demonstrates strong performance in multi-step generation.
@@ -55,17 +58,19 @@ To generate audio with our pre-trained model, simply run:
 python demo.py --prompt 'your prompt' --num_steps 1
 ```
 This will automatically download the pre-trained checkpoints from huggingface, and generate audio according to your prompt. 
+By default, this will use [meanaudio-s-full](https://huggingface.co/AndreasXi/MeanAudio/blob/main/meanaudio_s_full.pth). 
 The output audio will be at `MeanAudio/output/`, and the checkpoints will be at `MeanAudio/weights/`. 
 
 Alternatively, you can download manually the pre-trained models from this [Folder](https://drive.google.com/drive/folders/1nbIsVjl4pqLaAnqj-M8UPkahu28S59Kj?usp=sharing), and put them into `MeanAudio/weights/`. Here is a detailed explanation of the downloaded checkpoints: 
 
 
-1. [fluxaudio_fm.pth](https://drive.google.com/file/d/1PAJ7Asx_3e9HiaUoGIfSXI3K7BqgBR9x/view?usp=sharing): The Flux-style flow transformer trained on WavCaps, AudioCaps and Clotho dataset with the **standard flow matching objective**. It is capable of generating audio with multiple ($\geq 25$) sampling steps. You can run `scripts/flowmatching/infer_flowmatching.sh` to generate sound with this model.
+1. [fluxaudio_s_full.pth](https://drive.google.com/file/d/180nrqkO3t9hvlg_l8wN9uv1RoKoFyzrV/view?usp=drive_link): The Flux-style flow transformer trained on AudioCaps, AudioSet, WavCaps, VGGSound, MusicCaps and LP-MusicCaps with the **standard flow matching objective**. It is capable of generating audio with multiple ($\geq 25$) sampling steps. You can run `scripts/flowmatching/infer_flowmatching.sh` to generate sound with this model.
 
-2. [meanaudio_mf.pth](https://drive.google.com/file/d/1BFWiHVJwdyXihE14znDYiAWF0-mnEtA7/view?usp=sharing): The Flux-style flow transformer fine-tuned on AudioCaps with the **Mean Flow Objective**, supporting both single-step and multi-step audio generation. You can run `scripts/meanflow/infer_meanflow.sh` to generate sound with it. 
+2. [meanaudio_s_ac.pth](https://drive.google.com/file/d/11eQ3i5TJkU8b8S30PkHSgVozoNMWgCis/view?usp=drive_link): The Flux-style flow transformer fine-tuned on AudioCaps with the **Mean Flow Objective**, supporting both single-step and multi-step audio generation. You can run `scripts/meanflow/infer_meanflow.sh` to generate sound with it. 
 
+3. [meanaudio_s_full.pth](https://drive.google.com/file/d/1zGiZrHZ6CuFKpsPe2hVgFD1FsNpBYQU_/view?usp=drive_link): The Flux-style flow transformer trained on AudioCaps, AudioSet, WavCaps, VGGSound, MusicCaps and LP-MusicCaps with the **Mean Flow Objective**. It is more stable than [meanaudio_s_ac.pth](https://drive.google.com/file/d/11eQ3i5TJkU8b8S30PkHSgVozoNMWgCis/view?usp=drive_link). You can run `scripts/meanflow/infer_meanflow.sh` to generate sound with it. 
 
-3. Others: The [BigVGAN Vocoder](https://github.com/NVIDIA/BigVGAN): [best_netG.pt](https://drive.google.com/file/d/1PAJ7Asx_3e9HiaUoGIfSXI3K7BqgBR9x/view?usp=sharing). 
+4. Others: The [BigVGAN Vocoder](https://github.com/NVIDIA/BigVGAN): [best_netG.pt](https://drive.google.com/file/d/1PAJ7Asx_3e9HiaUoGIfSXI3K7BqgBR9x/view?usp=sharing). 
  The 1D VAE: [v1-16.pth](https://drive.google.com/file/d/1bJlNhGGjmDBKjz04bpOi-UjfuJILSiGU/view?usp=sharing). And the [CLAP](https://github.com/LAION-AI/CLAP) encoder:  
 [music_speech_audioset_epoch_15_esc_89.98.pt](https://drive.google.com/file/d/1KGQ5Q8xHOoItPDdJAB8ry6kKJ5HkMyo9/view?usp=share_link): 
 
@@ -104,7 +109,12 @@ bash scripts/meanflow/eval_meanflow.sh
 ## Citation
 
 ```bibtex
-TODO
+@article{li2025meanaudio,
+  title={MeanAudio: Fast and Faithful Text-to-Audio Generation with Mean Flows},
+  author={Li, Xiquan and Liu, Junxi and Liang, Yuzhe and Niu, Zhikang and Chen, Wenxi and Chen, Xie},
+  journal={arXiv preprint arXiv:2508.06098},
+  year={2025}
+}
 ```
 
 

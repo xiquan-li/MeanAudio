@@ -1,13 +1,12 @@
 export CUDA_VISIBLE_DEVICES=1
 
-output_path=./exps/fluxaudio/output_25nfe
+output_path=./exps/fluxaudio_s_full/output_25nfe
 
 prompt="A basketball bounces rhythmically on a court, shoes squeak against the floor, and a referee’s whistle cuts through the air"
-model=fluxaudio_fm
-ckpt_path=weights/fluxaudio_fm.pth
+ckpt_path=weights/fluxaudio_s_full.pth
 
 python infer.py \
-    --variant "fluxaudio_fm" \
+    --variant "fluxaudio_s" \
     --prompt "$prompt" \
     --model_path "$ckpt_path" \
     --output $output_path \

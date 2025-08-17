@@ -74,7 +74,6 @@ def main():
     dtype = torch.float32 if args.full_precision else torch.bfloat16
 
     output_dir.mkdir(parents=True, exist_ok=True)
-    print(model.model_name)
     # load a pretrained model
     net: MeanAudio = get_mean_audio(model.model_name, 
                                     use_rope=args.use_rope, 

@@ -30,7 +30,7 @@ def main():
     
     parser.add_argument('--prompt', type=str, help='Input prompt', default='')
     parser.add_argument('--negative_prompt', type=str, help='Negative prompt', default='')
-    parser.add_argument('--duration', type=float, default=9.975)  # for 312 latents, seq_config should has a duration of 9.975s 
+    parser.add_argument('--duration', type=float, default=9.975)  # for 312 latents (used in training), seq_config should has a duration of 9.975s 
     parser.add_argument('--cfg_strength', type=float, default=4.5)
     parser.add_argument('--num_steps', type=int, default=25)
 

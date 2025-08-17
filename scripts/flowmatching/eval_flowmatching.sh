@@ -3,11 +3,11 @@
 export CUDA_VISIBLE_DEVICES=2
 
 num_steps=25
-ckpt_path=./weights/fluxaudio_fm.pth
-output_path=./exps/fluxaudio/test_${num_steps}nfe_fp32
+ckpt_path=./weights/fluxaudio_s_full.pth
+output_path=./exps/fluxaudio_s_full/test_${num_steps}nfe_fp32
 
 python eval.py \
-    --variant "fluxaudio_fm" \
+    --variant "fluxaudio_s" \
     --model_path "$ckpt_path" \
     --output $output_path/audio \
     --cfg_strength 4.5 \

@@ -85,8 +85,7 @@ class RunnerMeanFlow:
                                           use_rope=cfg.use_rope,
                                           text_c_dim=cfg.data_dim.text_c_dim).cuda(),
                            device_ids=[local_rank],
-                           broadcast_buffers=False,
-                           find_unused_parameters=True)
+                           broadcast_buffers=False)
         if cfg.compile:
             self.train_fn = torch.compile(self.train_fn)
             self.val_fn = torch.compile(self.val_fn)

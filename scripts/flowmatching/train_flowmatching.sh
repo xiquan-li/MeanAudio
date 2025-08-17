@@ -8,7 +8,7 @@ exp_id=AC_${btz}_numgpus${NUM_GPUS}_niter${num_iterations}_T5_CLAP_flowmatching
 text_encoder_name=t5_clap
 
 text_c_dim=512   # 1024 + 512
-model=fluxaudio_fm # meanaudio_mf, fluxaudio_fm
+model=fluxaudio_s # meanaudio_s, fluxaudio_s
 
 
 OMP_NUM_THREADS=1 \

@@ -11,12 +11,12 @@ text_encoder_name=t5_clap
 text_c_dim=512   # 1024 + 512
 
 num_iterations=200
-model=meanaudio_mf # meanaudio_mf, fluxaudio_fm
+model=meanaudio_s # meanaudio_s, fluxaudio_s
 
 exp_id=debug
 
 # Loading from pre-trained weights
-pretrained_weights=./weights/flux_tta_mf.pth
+pretrained_weights=./weights/fluxaudio_s_full.pth
 
 OMP_NUM_THREADS=1 \
 CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES \

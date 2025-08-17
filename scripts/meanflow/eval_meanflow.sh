@@ -3,11 +3,11 @@
 export CUDA_VISIBLE_DEVICES=0
 
 num_steps=1
-ckpt_path=./weights/meanaudio_mf.pth
-output_path=./exps/meanaudio/test_${num_steps}nfe_fp32
+ckpt_path=./weights/meanaudio_s_ac.pth
+output_path=./exps/meanaudio_s_ac/test_${num_steps}nfe_fp32
 
 python eval.py \
-    --variant "meanaudio_mf" \
+    --variant "meanaudio_s" \
     --model_path "$ckpt_path" \
     --output $output_path/audio \
     --cfg_strength 0.9 \
