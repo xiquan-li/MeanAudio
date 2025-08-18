@@ -3,24 +3,23 @@
   <h1>MeanAudio: Fast and Faithful Text-to-Audio Generation with Mean Flows</h1>
   <!-- <a href=>Paper</a> | <a href="https://meanaudio.github.io/">Webpage</a>  -->
 
-  [![Webpage](https://img.shields.io/badge/Website-Visit-orange)](https://meanaudio.github.io/)
-  [![Hugging Face Model](https://img.shields.io/badge/Hugging%20Face-Model-brightgreen)](https://huggingface.co/AndreasXi/MeanAudio)
-  [![Paper](https://img.shields.io/badge/Paper-DOI-blue)](https://arxiv.org/abs/2508.06098)
-
+  [![Paper](https://img.shields.io/badge/Paper-arXiv-b31b1b?logo=arxiv&logoColor=white)](https://arxiv.org/abs/2508.06098)
+  [![Hugging Face Model](https://img.shields.io/badge/Model-HuggingFace-yellow?logo=huggingface)](https://huggingface.co/AndreasXi/MeanAudio)
+  [![Hugging Face Space](https://img.shields.io/badge/Space-HuggingFace-blueviolet?logo=huggingface)](https://huggingface.co/spaces/chenxie95/MeanAudio)
+  [![Webpage](https://img.shields.io/badge/Website-Visit-orange?logo=googlechrome&logoColor=white)](https://meanaudio.github.io/)
 
 
 </p>
 </div>
 
 ## News 🔥
-[Update Aug. 17, 2025] We present a new variant of MeanAudio: [meanaudio-s-full](https://huggingface.co/AndreasXi/MeanAudio/blob/main/meanaudio_s_full.pth): a 120M latent flow transformer trained with the MeanFlow objective on ~10,000 hours of audio data sourced from AudioCaps, AudioSet, WavCaps, VGGSound, MusicCaps, and LP-MusicCaps.
-It achieves state-of-the-art performance in single-step text-to-audio generation while being more stable and controllable. 
+- [Update Aug. 17, 2025] We present a new variant of MeanAudio: [meanaudio-s-full](https://huggingface.co/AndreasXi/MeanAudio/blob/main/meanaudio_s_full.pth): a 120M latent flow transformer trained with the MeanFlow objective on ~10,000 hours of audio data sourced from AudioCaps, AudioSet, WavCaps, VGGSound, MusicCaps, and LP-MusicCaps. Try it out at our [🤗 huggingface space](https://huggingface.co/spaces/chenxie95/MeanAudio) !
 
 ## Overview 
 MeanAudio is a novel MeanFlow-based model tailored for fast and faithful text-to-audio generation. It can synthesize realistic sound in a single step, achieving a real-time factor (RTF) of 0.013 on a single NVIDIA 3090 GPU. Moreover, it also demonstrates strong performance in multi-step generation.
 
 <div align="center">
-  <img src="sets/performance.png" alt="" width="450">
+  <img src="sets/performance.png" alt="" width="500">
 </div>
 
 

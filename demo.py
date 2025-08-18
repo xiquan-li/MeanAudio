@@ -95,9 +95,8 @@ def MeanAudioDemoInfer(
     net.load_weights(torch.load(model_path, map_location=device, weights_only=True))
     net.update_seq_lengths(seq_cfg.latent_seq_len)
     
-    if variant=='meanaudio_s':
-        use_meanflow=True
-
+    if variant == 'meanaudio_s': 
+        use_meanflow=True 
     if use_meanflow:
         generation_func = MeanFlow(steps=num_steps)
         cfg_strength=0  # for meanflow, cfg_strength is integrated in training, and thus don't need to be specified here
