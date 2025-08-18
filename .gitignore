@@ -21,6 +21,7 @@ data/*
 
 weights/*
 weights_backup/*
+weights_shadow/*
 !weights/.gitkeep
 
 # Byte-compiled / optimized / DLL files

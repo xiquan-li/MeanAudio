@@ -472,7 +472,7 @@ class RunnerMeanFlow:
                 extract(audio_path=audio_dir,
                         output_path=audio_dir / 'cache',
                         device='cuda',
-                        batch_size=2, 
+                        batch_size=16, 
                         num_workers=0,
                         skip_video_related=True,  # avoid extracting video related features 
                         audio_length=10) 
