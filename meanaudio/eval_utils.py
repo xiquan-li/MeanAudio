@@ -48,6 +48,11 @@ fluxaudio_fm = ModelConfig(model_name='fluxaudio_fm',
                            vae_path=Path('./weights/v1-16.pth'),
                            bigvgan_16k_path=Path('./weights/best_netG.pt'),
                            mode='16k')
+fluxaudio_m_full = ModelConfig(model_name='fluxaudio_m_full', 
+                                model_path=Path('./weights/fluxaudio_m_full.pth'),  # not useful 
+                                vae_path=Path('./weights/v1-44.pth'),
+                                bigvgan_16k_path=None,
+                                mode='44k')
 fluxaudio_m_full_30 = ModelConfig(model_name='fluxaudio_m_full_30', 
                            model_path=Path('./weights/fluxaudio_m_full_30.pth'),  # not useful 
                            vae_path=Path('./weights/v1-44.pth'),
@@ -63,6 +68,7 @@ all_model_cfg: dict[str, ModelConfig] = {
     'fluxaudio_fm': fluxaudio_fm, 
     'fluxaudio_m_full_30': fluxaudio_m_full_30,
     'meanaudio_mf': meanaudio_mf, 
+    'fluxaudio_m_full': fluxaudio_m_full,
 }
 
 

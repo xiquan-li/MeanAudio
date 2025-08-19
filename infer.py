@@ -174,7 +174,8 @@ def main():
         'The steady crashing of waves against the shore,high fidelity, the whooshing sound of water receding back into the ocean, the sound of seagulls and other coastal birds, and the distant sound of ships or boats.',
         'Two space shuttles are fighting in the space.'
     ]
-   
+    
+    prompts = prompts
     if args.use_meanflow:
         for prompt in tqdm(prompts): 
             log.info(f'Prompt: {prompt}')
