@@ -67,7 +67,7 @@ class FlowMatching:
                 flow = fn(t, x)
                 next_t = steps[ti + 1]
                 dt = next_t - t
-                x = x + dt * flow
-                # x = x - dt * flow 
+                # x = x + dt * flow
+                x = x - dt * flow   # fix: since we learn the reverse direction, i.e.: from data to noise, we need to reverse the direction of the flow
 
         return x
