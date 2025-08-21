@@ -59,10 +59,13 @@ class ExtractedAudio(Dataset):
         log.info(f'Loaded text features_c: {text_features_c_s}.') 
 
         assert len(npz_files) == len(self.df_list), 'Number mismatch between npz files and tsv items'
-        assert mean_s[1] == self.data_dim['latent_seq_len'], \
-            f'{mean_s[1]} != {self.data_dim["latent_seq_len"]}'
-        assert std_s[1] == self.data_dim['latent_seq_len'], \
-            f'{std_s[1]} != {self.data_dim["latent_seq_len"]}'
+        # assert mean_s[1] == self.data_dim['latent_seq_len'], \
+        #     f'{mean_s[1]} != {self.data_dim["latent_seq_len"]}'
+        # assert std_s[1] == self.data_dim['latent_seq_len'], \
+        #     f'{std_s[1]} != {self.data_dim["latent_seq_len"]}'
+
+        if mean_s[1] != self.data_dim['latent_seq_len']: 
+            log.info(f'Truncating {mean_s[1]} to {self.data_dim["latent_seq_len"]}')
         assert text_features_s[1] == self.data_dim['text_seq_len'], \
             f'{text_features_s[1]} != {self.data_dim["text_seq_len"]}'
         assert text_features_s[-1] == self.data_dim['text_dim'], \
@@ -106,11 +109,15 @@ class ExtractedAudio(Dataset):
         if self.concat_text_fc: 
             text_features_c = torch.cat([text_features.mean(dim=-2),
                                          text_features_c], dim=-1)   # [b, d+d_c]
+        a_mean = torch.from_numpy(np_data['mean'])
+        a_mean = a_mean[:self.data_dim['latent_seq_len'], :]
+        a_std = torch.from_numpy(np_data['std'])
+        a_std = a_std[:self.data_dim['latent_seq_len'], :]
 
         out_dict = {
             'id': str(self.df_list[idx]['id']),
-            'a_mean': torch.from_numpy(np_data['mean']), 
-            'a_std': torch.from_numpy(np_data['std']), 
+            'a_mean': a_mean, 
+            'a_std': a_std, 
             'text_features': text_features, 
             'text_features_c': text_features_c,
             'caption': self.df_list[idx]['caption'],

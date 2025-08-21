@@ -127,7 +127,7 @@ echo $node_ip
 
 #### Model config
 # MODEL='fluxaudio_m_full_30'
-MODEL='fluxaudio_s_full'
+MODEL='fluxaudio_m_full'  # full denotes 44khz
 # MODEL='fluxaudio_fm'
 TEXT_ENCODER_NAME='t5_clap'
 TEXT_C_DIM=512
@@ -140,14 +140,14 @@ EVAL_BATCH_SIZE=4
 NUM_WORKERS=10
 
 #### Training config
-NUM_ITERATIONS=50_000
+NUM_ITERATIONS=100_000
 MINI_TRAIN=False
 USE_MEANFLOW=False   # for runner config 
 USE_WANDB=True
 # WEIGHTS='/apdcephfs_gy4/share_302507476/xiquanli/exps/FluxAudio/AWM_8kh_10s_bsz4096_numgpus64_niter_T5_CLAP_flowmatching/AWM_8kh_10s_bsz4096_numgpus64_niter_T5_CLAP_flowmatching_ema_final.pth'
 
 # EXP_ID=FMA_Jamendo_30s_bsz${BATCH_SIZE}_numgpus${TOTAL_GPUS}_niter${NUM_ITERATIONS}_T5_CLAP_${MODEL}
-EXP_ID=AWM_8kh_10s_bsz${BATCH_SIZE}_numgpus${TOTAL_GPUS}_niter${NUM_ITERATIONS}_T5_CLAP_${MODEL}
+EXP_ID=AWM_4M_10s_bsz${BATCH_SIZE}_numgpus${TOTAL_GPUS}_niter${NUM_ITERATIONS}_T5_CLAP_${MODEL}
 
 if [ "$MINI_TRAIN" = "True" ]; then
     echo "======================== Mini train ========================="
@@ -193,4 +193,4 @@ pdsh -w $node_ip "cd ${SCRIPT_DIR} && bash ${SCRIPT_DIR}/scripts/train_multinode
         use_meanflow=${USE_MEANFLOW} \
         ++use_rope=True \
         ++use_wandb=${USE_WANDB} \
-        ++do_eval=True"
+        ++do_eval=False"
