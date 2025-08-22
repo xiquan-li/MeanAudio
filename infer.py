@@ -162,6 +162,16 @@ def main():
 
     prompts_music = [
         'Guitar and piano playing a warm music, with a soft and gentle melody, perfect for a romantic evening.',
+        'A lively blend of pop and funk with bright synths and a steady dance beat.',
+        "A lively blend of pop and funk with bright synths and a steady dance beat.",
+        "Fast-paced electronic track with driving basslines and shimmering melodies.",
+        "Upbeat indie rock with jangly guitars and catchy, sing-along choruses.",
+        "A slow, ethereal soundscape filled with reverb-soaked synths and distant echoes.",
+        "Minimalist piano patterns layered over soft drones, evoking a sense of calm.",
+        "Dreamlike textures with shimmering pads, airy vocals, and subtle field recordings.",
+        "A grand orchestral score with sweeping strings and powerful brass.",
+        "A delicate chamber piece featuring solo violin and piano accompaniment.",
+        "An emotional symphonic composition that builds toward a triumphant finale."
     ]
 
     # prompts = [args.prompt]
@@ -175,7 +185,7 @@ def main():
         'Two space shuttles are fighting in the space.'
     ]
     
-    prompts = prompts
+    prompts = prompts_music
     if args.use_meanflow:
         for prompt in tqdm(prompts): 
             log.info(f'Prompt: {prompt}')
