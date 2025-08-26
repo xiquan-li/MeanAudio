@@ -53,4 +53,4 @@ use_repa: False
 datasets: ['audiocaps', 'freesound_10s', 'vggsound', 'bbc_sound_effects', 'audioset_sl', 'audioset', 'musiccaps', 'mtt']
 # datasets: ['audiocaps', 'freesound_10s', 'vggsound', 'bbc_sound_effects', 'audioset_sl']
 
-# datasets: ['audiocaps
+# datasets: ['audiocaps']

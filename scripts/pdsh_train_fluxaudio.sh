@@ -140,14 +140,14 @@ EVAL_BATCH_SIZE=4
 NUM_WORKERS=4
 
 #### Training config
-NUM_ITERATIONS=200_000
+NUM_ITERATIONS=100_000
 MINI_TRAIN=False
 USE_MEANFLOW=False   # for runner config 
-USE_WANDB=True
+USE_WANDB=False
 # WEIGHTS='/apdcephfs_gy4/share_302507476/xiquanli/exps/FluxAudio/AWM_8kh_10s_bsz4096_numgpus64_niter_T5_CLAP_flowmatching/AWM_8kh_10s_bsz4096_numgpus64_niter_T5_CLAP_flowmatching_ema_final.pth'
 
 # EXP_ID=FMA_Jamendo_30s_bsz${BATCH_SIZE}_numgpus${TOTAL_GPUS}_niter${NUM_ITERATIONS}_T5_CLAP_${MODEL}
-EXP_ID=AWM_4M_10s_bsz${BATCH_SIZE}_numgpus${TOTAL_GPUS}_niter${NUM_ITERATIONS}_T5_CLAP_${MODEL}
+EXP_ID=AWM_4M_10s_bsz${BATCH_SIZE}_numgpus${TOTAL_GPUS}_niter${NUM_ITERATIONS}_T5_CLAP_${MODEL}_assl_cleaned
 
 if [ "$MINI_TRAIN" = "True" ]; then
     echo "======================== Mini train ========================="

@@ -47,6 +47,6 @@ use_repa: False
 
 # datasets: ['fma', 'freesound_30s', 'audioset']
 # datasets: ['fma', 'freesound']
-datasets: ['audioset', 'freesound_10s', 'musiccaps', 'mtt', 'audiocaps', 'bbc_sound_effects', 'audioset_sl', 'vggsound', 'jamendomaxcaps', 'fma']
+datasets: ['audioset', 'freesound_10s', 'musiccaps', 'mtt', 'audiocaps', 'bbc_sound_effects', 'audioset_sl_cleaned', 'vggsound', 'jamendomaxcaps', 'fma']
 # datasets: ['jamendomaxcaps', 'fma']
 # datasets: ['audiocaps']

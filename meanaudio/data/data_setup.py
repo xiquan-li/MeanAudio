@@ -74,6 +74,9 @@ def setup_training_datasets(cfg: DictConfig) -> tuple[Dataset, DistributedSample
         if 'audioset_sl' in cfg.datasets:
             audioset_sl_npz = load_audio_data(cfg, cfg.data.AudioSet_SL)
             datasets.append(audioset_sl_npz)
+        if 'audioset_sl_cleaned' in cfg.datasets:
+            audioset_sl_cleaned_npz = load_audio_data(cfg, cfg.data.AudioSet_SL_CLEANED)
+            datasets.append(audioset_sl_cleaned_npz)
         if 'vggsound' in cfg.datasets:
             vggsound_npz = load_audio_data(cfg, cfg.data.VGGSound)
             datasets.append(vggsound_npz)

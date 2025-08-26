@@ -6,12 +6,12 @@ export https_proxy=http://star-proxy.oa.com:3128
 NUM_GPUS=$(echo ${CUDA_VISIBLE_DEVICES:-""} | tr ',' '\n' | wc -l)
 btz=256
 num_iterations=400_000
-model=meanaudio_mf # meanaudio_mf, fluxaudio_fm
+model=meanaudio_large # meanaudio_mf, fluxaudio_fm
 lr=1e-4
 
-exp_id=AWV_${btz}_numgpus${NUM_GPUS}_niter${num_iterations}_T5_CLAP_${model}_fixddpbug_unfixtrajbug_scratch
+exp_id=AWM_${btz}_numgpus${NUM_GPUS}_niter${num_iterations}_T5_CLAP_${model}_fixddpbug_unfixtrajbug_scratch
 text_encoder_name=t5_clap
-weights=./weights/fluxaudio_fm.pth   # pre-trained weigths to be loaded for mix-field finetuning
+# weights=./weights/fluxaudio_fm.pth   # pre-trained weigths to be loaded for mix-field finetuning
 
 text_c_dim=512   # 1024 + 512
 

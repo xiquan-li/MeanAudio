@@ -23,6 +23,11 @@ AudioSet_SL:
   npz_dir: /apdcephfs_gy4/share_302507476/xiquanli/data/WavCaps/npz_dir/AudioSet_SL
   repa_npz_dir: null
 
+AudioSet_SL_CLEANED:
+  tsv: /apdcephfs_gy4/share_302507476/xiquanli/data/WavCaps/npz_dir/AudioSet_SL_CLEANED_meta.tsv
+  npz_dir: /apdcephfs_gy4/share_302507476/xiquanli/data/WavCaps/npz_dir/AudioSet_SL_CLEANED
+  repa_npz_dir: null
+
 FreeSound_10s: 
   tsv: /apdcephfs_gy4/share_302507476/xiquanli/data/WavCaps/npz_dir/FreeSound-10s_meta.tsv
   npz_dir: /apdcephfs_gy4/share_302507476/xiquanli/data/WavCaps/npz_dir/FreeSound-10s

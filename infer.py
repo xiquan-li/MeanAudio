@@ -185,7 +185,7 @@ def main():
         'Two space shuttles are fighting in the space.'
     ]
     
-    prompts = prompts_music
+    prompts = prompts_fma
     if args.use_meanflow:
         for prompt in tqdm(prompts): 
             log.info(f'Prompt: {prompt}')
