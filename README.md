@@ -91,7 +91,7 @@ Before training, make sure that all files from [here](https://huggingface.co/And
 ### 1. Latent & Text Feature Extraction: 
 We first extract VAE latents & text encoder embeddings to enable fast and efficient training. For this, `scripts/extract_audio_latents.sh` provides a detailed guide for it. The pipeline includes two steps: a) partition audios into 10s clips. b) extract latents & embeddings into npz files. 
 
-*To avoid the laborious data pre-processing step, we have uploaded an extracted version of [AudioCaps](https://audiocaps.github.io). Feel free to download it from this [link](https://drive.google.com/file/d/1C_P3ZQQWxUgMuCw-qvYj2C2r0iM35Sfy/view?usp=share_link), unzip it and put it under `MeanAudio/data/`. Then you can directly jump to the second step.* 😊
+To avoid the laborious data pre-processing step, we have uploaded an extracted version of [AudioCaps](https://audiocaps.github.io). Feel free to download it from this [link](https://drive.google.com/file/d/1C_P3ZQQWxUgMuCw-qvYj2C2r0iM35Sfy/view?usp=share_link), unzip it and put it under `MeanAudio/data/`. Then you can directly jump to the second step. 😊
 
 However, if you want to train the model on other datasets besides AudioCaps, you should still run `scripts/extract_audio_latents.sh` to do feature extraction. 
 Remember to adjust `config/data/t5_clap.yaml` for correct metadata paths. 
