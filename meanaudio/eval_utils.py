@@ -63,12 +63,18 @@ meanaudio_mf = ModelConfig(model_name='meanaudio_mf',
                            vae_path=Path('./weights/v1-16.pth'),
                            bigvgan_16k_path=Path('./weights/best_netG.pt'),
                            mode='16k')
+meanaudio_large = ModelConfig(model_name='meanaudio_large', 
+                           model_path=Path('./weights/meanaudio_large.pth'),
+                           vae_path=Path('./weights/v1-16.pth'),
+                           bigvgan_16k_path=Path('./weights/best_netG.pt'),
+                           mode='16k')
 
 all_model_cfg: dict[str, ModelConfig] = {
     'fluxaudio_fm': fluxaudio_fm, 
     'fluxaudio_m_full_30': fluxaudio_m_full_30,
     'meanaudio_mf': meanaudio_mf, 
     'fluxaudio_m_full': fluxaudio_m_full,
+    'meanaudio_large': meanaudio_large,
 }
 
 
