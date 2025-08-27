@@ -25,8 +25,8 @@ def main():
     parser = ArgumentParser()
     parser.add_argument('--variant',
                         type=str,
-                        default='small_16k_mf',
-                        help='small_16k_mf, small_16k_fm')
+                        default='meanaudio_s',
+                        help='meanaudio_s, meanaudio_l, fluxaudio_s')
     
     parser.add_argument('--prompt', type=str, help='Input prompt', default='')
     parser.add_argument('--negative_prompt', type=str, help='Negative prompt', default='')

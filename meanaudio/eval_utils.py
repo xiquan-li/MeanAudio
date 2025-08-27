@@ -53,10 +53,16 @@ meanaudio_s = ModelConfig(model_name='meanaudio_s',
                            vae_path=Path('./weights/v1-16.pth'),
                            bigvgan_16k_path=Path('./weights/best_netG.pt'),
                            mode='16k')
+meanaudio_l = ModelConfig(model_name='meanaudio_l', 
+                           model_path=Path('./weights/meanaudio_l_full.pth'),  # will be specified later 
+                           vae_path=Path('./weights/v1-16.pth'),
+                           bigvgan_16k_path=Path('./weights/best_netG.pt'),
+                           mode='16k')
 
 all_model_cfg: dict[str, ModelConfig] = {
     'fluxaudio_s': fluxaudio_s, 
     'meanaudio_s': meanaudio_s, 
+    'meanaudio_l': meanaudio_l, 
 }
 
 

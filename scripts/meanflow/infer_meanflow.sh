@@ -1,13 +1,13 @@
 export CUDA_VISIBLE_DEVICES=0
 
-output_path=./exps/meanaudio_s_full/output_1nfe
+output_path=./exps/meanaudio_l_full/output_1nfe
 
-prompt="Dance music with strong, upbeat tempo, and repetitive rhythms, include sub-genres like house, techno, EDM, trance, and many more."
-ckpt_path=weights/meanaudio_s_full.pth
+prompt="A man is chopping vegetables"
+ckpt_path=weights/meanaudio_l_full.pth
 num_steps=1
 
 python infer.py \
-    --variant "meanaudio_s" \
+    --variant "meanaudio_l" \
     --prompt "$prompt" \
     --model_path "$ckpt_path" \
     --output $output_path \

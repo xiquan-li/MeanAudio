@@ -598,10 +598,22 @@ def meanaudio_s(**kwargs) -> MeanAudio:
                      latent_seq_len=312,  # for 10s audio
                      **kwargs)
 
+def meanaudio_l(**kwargs) -> MeanAudio: 
+    num_heads = 14
+    return MeanAudio(latent_dim=20,
+                     text_dim=1024,
+                     hidden_dim=64 * num_heads,
+                     depth=12,
+                     fused_depth=8,
+                     num_heads=num_heads,
+                     latent_seq_len=312,  # for 10s audio
+                     **kwargs)
 
 def get_mean_audio(name: str, **kwargs) -> MeanAudio:
     if name == 'meanaudio_s':
         return meanaudio_s(**kwargs)
+    if name == 'meanaudio_l': 
+        return meanaudio_l(**kwargs)
     if name == 'fluxaudio_s': 
         return fluxaudio_s(**kwargs)
 

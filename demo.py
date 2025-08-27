@@ -95,7 +95,7 @@ def MeanAudioDemoInfer(
     net.load_weights(torch.load(model_path, map_location=device, weights_only=True))
     net.update_seq_lengths(seq_cfg.latent_seq_len)
     
-    if variant == 'meanaudio_s': 
+    if variant == 'meanaudio_s' or variant == 'meanaudio_l': 
         use_meanflow=True 
     if use_meanflow:
         generation_func = MeanFlow(steps=num_steps)
@@ -142,11 +142,11 @@ def MeanAudioDemoInfer(
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--prompt', type=str, help='Input prompt', default='A dog is barking')
-    parser.add_argument('--variant', type=str, help='Model variant', choices=['meanaudio_s', 'fluxaudio_s'], default='meanaudio_s')
+    parser.add_argument('--variant', type=str, help='Model variant', choices=['meanaudio_s', 'meanaudio_l', 'fluxaudio_s'], default='meanaudio_s')
     parser.add_argument('--num_steps', type=int, help='Number of steps', default=1)
     args = parser.parse_args()
 
     audio_path = MeanAudioDemoInfer(prompt=args.prompt, 
-                               variant=args.variant, 
-                               num_steps=args.num_steps)
+                                    variant=args.variant, 
+                                    num_steps=args.num_steps)
     log.info('Inference completed')
