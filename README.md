@@ -13,7 +13,7 @@
 </div>
 
 ## News 🔥
-- [Update Aug. 27, 2025] We present a new variant of MeanAudio: [MeanAudio-L-Full](https://huggingface.co/AndreasXi/MeanAudio/blob/main/meanaudio_l_full.pth) a 480M latent flow transformer achieving strong performance on both single-step and multi-step audio generation. Try it out at our [🤗 huggingface space](https://huggingface.co/spaces/chenxie95/MeanAudio) !
+- [Update Aug. 27, 2025] We present a new variant of MeanAudio: [MeanAudio-L-Full](https://huggingface.co/AndreasXi/MeanAudio/blob/main/meanaudio_l_full.pth) a 480M latent flow transformer achieving SOTA performance on both single-step and multi-step audio generation. Try it out at our [🤗 huggingface space](https://huggingface.co/spaces/chenxie95/MeanAudio) !
 
 - [Update Aug. 17, 2025] We present [MeanAudio-S-Full](https://huggingface.co/AndreasXi/MeanAudio/blob/main/meanaudio_s_full.pth): a 120M latent flow transformer trained with the MeanFlow objective on ~10,000 hours of audio data sourced from AudioCaps, AudioSet, WavCaps, VGGSound, MusicCaps, and LP-MusicCaps. 
 
@@ -69,12 +69,12 @@ Alternatively, you can download manually the pre-trained models from this [Folde
 | Model Name  | Size | Dataset | Objective | Pre-trained | Link | 
 |---|---|---|---|---|---|
 | MeanAudio-S-AC | 120M | AudioCaps | Mean Flow | FluxAudio-S-Full | [Here](https://huggingface.co/AndreasXi/MeanAudio/blob/main/meanaudio_s_ac.pth)| 
-| FluxAudio-S-Full | 120M | All $^\dag$ | Flow Matching | - | [Here](https://huggingface.co/AndreasXi/MeanAudio/blob/main/fluxaudio_s_full.pth)
-| MeanAudio-S-Full | 120M | All $^\dag$ | Mean Flow | - | [Here](https://huggingface.co/AndreasXi/MeanAudio/blob/main/meanaudio_s_full.pth) | 
-| MeanAudio-L-Full | 480M | All $^\dag$ | Mean Flow | - | [Here](https://huggingface.co/AndreasXi/MeanAudio/blob/main/meanaudio_l_full.pth)
+| FluxAudio-S-Full | 120M | All $^*$ | Flow Matching | - | [Here](https://huggingface.co/AndreasXi/MeanAudio/blob/main/fluxaudio_s_full.pth)
+| MeanAudio-S-Full | 120M | All $^*$ | Mean Flow | - | [Here](https://huggingface.co/AndreasXi/MeanAudio/blob/main/meanaudio_s_full.pth) | 
+| MeanAudio-L-Full | 480M | All $^*$ | Mean Flow | - | [Here](https://huggingface.co/AndreasXi/MeanAudio/blob/main/meanaudio_l_full.pth)
 
 
-$^\dag$: All denotes AudioCaps + WavCaps + AudioSet + VGGSound + LP-MusicCaps-MC + LP-MusicCaps-MTT, forming approximately 3M of audio-text pairs (about 10,000 hours audio data). 
+$^*$: All denotes AudioCaps + WavCaps + AudioSet + VGGSound + LP-MusicCaps-MC + LP-MusicCaps-MTT, forming approximately 3M of audio-text pairs (about 10,000 hours audio data). 
 <!-- 1. [fluxaudio_s_full.pth](https://drive.google.com/file/d/180nrqkO3t9hvlg_l8wN9uv1RoKoFyzrV/view?usp=drive_link): The Flux-style flow transformer trained on AudioCaps, AudioSet, WavCaps, VGGSound, MusicCaps and LP-MusicCaps with the **standard flow matching objective**. It is capable of generating audio with multiple ($\geq 25$) sampling steps. You can run `scripts/flowmatching/infer_flowmatching.sh` to generate sound with this model.
 
 2. [meanaudio_s_ac.pth](https://drive.google.com/file/d/11eQ3i5TJkU8b8S30PkHSgVozoNMWgCis/view?usp=drive_link): The Flux-style flow transformer fine-tuned on AudioCaps with the **Mean Flow Objective**, supporting both single-step and multi-step audio generation. You can run `scripts/meanflow/infer_meanflow.sh` to generate sound with it. 
