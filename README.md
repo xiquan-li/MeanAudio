@@ -64,7 +64,7 @@ The output audio will be at `MeanAudio/output/`, and the checkpoints will be at 
 
 Alternatively, you can download manually the pre-trained models from this [Folder](https://drive.google.com/drive/folders/1nbIsVjl4pqLaAnqj-M8UPkahu28S59Kj?usp=sharing), and put them into `MeanAudio/weights/`. Then, you can use `scripts/meanflow/infer_meanflow.sh` and `scripts/flowmatching/infer_flowmatching.sh` to generate audio with pre-trained models. 
 
-## MeanAudio Model Family 
+## Variants
 
 | Model Name  | Size | Dataset | Objective | Pre-trained | Link | 
 |---|---|---|---|---|---|
