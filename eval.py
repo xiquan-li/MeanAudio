@@ -122,7 +122,7 @@ def main():
                                 rng=rng,
                                 cfg_strength=cfg_strength)
             audio = audios.float().cpu()[0]
-            save_paths = output_dir / f'{audio_ids[k]}.wav'
+            save_paths = output_dir / f'{audio_ids[k]}.flac'
             torchaudio.save(save_paths, audio, seq_cfg.sampling_rate)
             log.info(f'Audio saved to {save_paths}')
             log.info('Memory usage: %.2f GB', torch.cuda.max_memory_allocated() / (2**30))
@@ -140,7 +140,7 @@ def main():
                                 cfg_strength=cfg_strength)
             audio = audios.float().cpu()[0]
             
-            save_paths = output_dir / f'{audio_ids[k]}.wav'
+            save_paths = output_dir / f'{audio_ids[k]}.flac'
             torchaudio.save(save_paths, audio, seq_cfg.sampling_rate)
             log.info(f'Audio saved to {save_paths}')
             log.info('Memory usage: %.2f GB', torch.cuda.max_memory_allocated() / (2**30))

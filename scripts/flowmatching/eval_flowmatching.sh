@@ -1,6 +1,6 @@
 # evaluation on audiocaps
 
-export CUDA_VISIBLE_DEVICES=2
+export CUDA_VISIBLE_DEVICES=0
 
 num_steps=25
 ckpt_path=./weights/fluxaudio_s_full.pth
@@ -20,14 +20,13 @@ python eval.py \
     --full_precision 
 
 
-cd ./av-benchmark
 gt_audio='gt_audio'  # not used if you specify gt_cache 
 gt_cache='./data/audiocaps/test-features' 
 
 pred_audio=$output_path/audio
 output_metrics_dir=$output_path
 
-python evaluate.py \
+python av-benchmark/evaluate.py \
     --gt_audio $gt_audio \
     --gt_cache $gt_cache \
     --pred_audio $pred_audio \

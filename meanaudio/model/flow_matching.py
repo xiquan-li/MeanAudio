@@ -10,15 +10,18 @@ log = logging.getLogger()
 ## partially from https://github.com/gle-bellier/flow-matching
 class FlowMatching:
 
-    def __init__(self, min_sigma: float = 0.0, inference_mode='euler', num_steps: int = 25):
+    def __init__(self, min_sigma: float = 0.0, 
+                 inference_mode='euler', 
+                 num_steps: int = 25, 
+                 reverse_flow: bool = True):
         # inference_mode: 'euler' or 'adaptive'
         # num_steps: number of steps in the euler inference mode
+        # !TODO activate min_sigma 
         super().__init__()
         self.min_sigma = min_sigma
         self.inference_mode = inference_mode
         self.num_steps = num_steps
-
-        # self.fm = ExactOptimalTransportConditionalFlowMatcher(sigma=min_sigma)
+        self.reverse_flow = reverse_flow
 
         assert self.inference_mode in ['euler', 'adaptive']
         if self.inference_mode == 'adaptive' and num_steps > 0:
@@ -28,13 +31,18 @@ class FlowMatching:
                              t: torch.Tensor) -> torch.Tensor:
         # which is psi_t(x), eq 22 in flow matching for generative models
         t = t[:, None, None].expand_as(x0)
-        return (1 - (1 - self.min_sigma) * t) * x0 + t * x1  # (1-(1-sigma)*t)*x0 + t*x1
+        if self.reverse_flow:
+            return (1 - t) * x1 + t * x0  # xt = (1-t)*x1 + t*x0 -> vt = x0 - x1
+        else:
+            return (1 - t) * x0 + t * x1  # xt = (1-t)*x0 + t*x1 -> vt = x1 - x0
 
     def loss(self, predicted_v: torch.Tensor, x0: torch.Tensor, x1: torch.Tensor) -> torch.Tensor:
         # return the mean error without reducing the batch dimension
         reduce_dim = list(range(1, len(predicted_v.shape)))
-        # target_v = x1 - (1 - self.min_sigma) * x0
-        target_v = (1 - self.min_sigma) * x0 - x1  # fix: we learn the reverse trajectory (from data to noise)
+        if self.reverse_flow:
+            target_v = x0 - x1  
+        else:
+            target_v = x1 - x0 
         return (predicted_v - target_v).pow(2).mean(dim=reduce_dim)
 
     def get_x0_xt_c(
@@ -50,10 +58,16 @@ class FlowMatching:
         return x0, x1, xt, Cs
 
     def to_prior(self, fn: Callable, x1: torch.Tensor) -> torch.Tensor:
-        return self.run_t0_to_t1(fn, x1, 1, 0)
+        if self.reverse_flow:
+            return self.run_t0_to_t1(fn, x1, 0, 1)
+        else: 
+            return self.run_t0_to_t1(fn, x1, 1, 0)
 
     def to_data(self, fn: Callable, x0: torch.Tensor) -> torch.Tensor:
-        return self.run_t0_to_t1(fn, x0, 0, 1)
+        if self.reverse_flow:
+            return self.run_t0_to_t1(fn, x0, 1, 0)
+        else:
+            return self.run_t0_to_t1(fn, x0, 0, 1)
 
     def run_t0_to_t1(self, fn: Callable, x0: torch.Tensor, t0: float, t1: float) -> torch.Tensor:
         # fn: a function that takes (t, x) and returns the direction x0->x1
@@ -67,10 +81,6 @@ class FlowMatching:
                 flow = fn(t, x)
                 next_t = steps[ti + 1]
                 dt = next_t - t
-                # x = x + dt * flow
-                
-                # fix: since we learn the reverse trajectory (from data to noise) during training, 
-                # here we subtract flow from noise gradully to get data 
-                x = x - dt * flow 
+                x = x + dt * flow
 
         return x
