@@ -28,13 +28,14 @@ class FlowMatching:
                              t: torch.Tensor) -> torch.Tensor:
         # which is psi_t(x), eq 22 in flow matching for generative models
         t = t[:, None, None].expand_as(x0)
-        return (1 - (1 - self.min_sigma) * t) * x0 + t * x1  # (1-(1-sigma)*t)*x0 + t*x1
+        # return (1 - (1 - self.min_sigma) * t) * x0 + t * x1  # (1-(1-sigma)*t)*x0 + t*x1
+        return (1 - t) * x1 + t * x0  # xt = (1-t)*x1 + t*x0
 
     def loss(self, predicted_v: torch.Tensor, x0: torch.Tensor, x1: torch.Tensor) -> torch.Tensor:
         # return the mean error without reducing the batch dimension
         reduce_dim = list(range(1, len(predicted_v.shape)))
         # target_v = x1 - (1 - self.min_sigma) * x0
-        target_v = (1 - self.min_sigma) * x0 - x1   # fix: we learn the reverse direction, i.e.: from data to noise 
+        target_v = x0 - x1   # fix: we learn the reverse direction, i.e.: from data to noise 
         return (predicted_v - target_v).pow(2).mean(dim=reduce_dim)
 
     def get_x0_xt_c(
@@ -50,10 +51,10 @@ class FlowMatching:
         return x0, x1, xt, Cs
 
     def to_prior(self, fn: Callable, x1: torch.Tensor) -> torch.Tensor:
-        return self.run_t0_to_t1(fn, x1, 1, 0)
+        return self.run_t0_to_t1(fn, x1, 0, 1)
 
     def to_data(self, fn: Callable, x0: torch.Tensor) -> torch.Tensor:
-        return self.run_t0_to_t1(fn, x0, 0, 1)
+        return self.run_t0_to_t1(fn, x0, 1, 0)
 
     def run_t0_to_t1(self, fn: Callable, x0: torch.Tensor, t0: float, t1: float) -> torch.Tensor:
         # fn: a function that takes (t, x) and returns the direction x0->x1
@@ -68,6 +69,6 @@ class FlowMatching:
                 next_t = steps[ti + 1]
                 dt = next_t - t
                 # x = x + dt * flow
-                x = x - dt * flow   # fix: since we learn the reverse direction, i.e.: from data to noise, we need to reverse the direction of the flow
+                x = x + dt * flow   # fix: since we learn the reverse direction, i.e.: from data to noise, we need to reverse the direction of the flow
 
         return x

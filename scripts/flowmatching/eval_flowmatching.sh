@@ -3,11 +3,11 @@
 export CUDA_VISIBLE_DEVICES=2
 
 num_steps=25
-ckpt_path=/apdcephfs_gy4/share_302507476/xiquanli/exps/MeanAudio/AWM_4M_10s_bsz4096_numgpus64_niter100_000_T5_CLAP_fluxaudio_m_full/AWM_4M_10s_bsz4096_numgpus64_niter100_000_T5_CLAP_fluxaudio_m_full_ema_final.pth
-output_path=/apdcephfs_gy4/share_302507476/xiquanli/exps/MeanAudio/AWM_4M_10s_bsz4096_numgpus64_niter100_000_T5_CLAP_fluxaudio_m_full/
+ckpt_path=/apdcephfs_gy4/share_302507476/xiquanli/exps/MeanAudio/AWV_8kh_10s_bsz4096_numgpus64_niter50_000_T5_CLAP_fluxaudio_fm_Correct_xt/AWV_8kh_10s_bsz4096_numgpus64_niter50_000_T5_CLAP_fluxaudio_fm_Correct_xt_ema_final.pth
+output_path=/apdcephfs_gy4/share_302507476/xiquanli/exps/MeanAudio/AWV_8kh_10s_bsz4096_numgpus64_niter50_000_T5_CLAP_fluxaudio_fm_Correct_xt/
 
 python eval.py \
-    --variant "fluxaudio_m_full" \
+    --variant "fluxaudio_fm" \
     --model_path "$ckpt_path" \
     --output $output_path/audio \
     --cfg_strength 4.5 \
