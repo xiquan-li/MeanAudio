@@ -20,7 +20,6 @@ from meanaudio.model.networks import get_mean_audio
 from meanaudio.model.sequence_config import CONFIG_16K, CONFIG_44K
 from meanaudio.model.utils.features_utils import FeaturesUtils
 from meanaudio.model.utils.parameter_groups import get_parameter_groups
-from meanaudio.model.utils.sample_utils import log_normal_sample,log_normal_sample_r_t
 from meanaudio.utils.dist_utils import (info_if_rank_zero, local_rank, string_if_rank_zero)
 from meanaudio.utils.log_integrator import Integrator
 from meanaudio.utils.logger import TensorboardLogger
@@ -574,48 +573,6 @@ class RunnerMeanFlow:
         self.log.info('Network weights, optimizer states, and scheduler states loaded.')
 
         return it
-    
-    # def load_checkpoint(self, path):
-    #     self.log.info(f'Loading checkpoint from {path}')
-    #     # This method loads everything and should be used to resume training
-    #     map_location = 'cuda:%d' % local_rank
-    #     checkpoint = torch.load(path, map_location={'cuda:0': map_location}, weights_only=True)
-        
-    #     it = 0
-    #     # it = checkpoint['it']
-    #     weights = checkpoint['weights']  # this is not ema weights
-    #     #optimizer = checkpoint['optimizer']
-    #     #scheduler = checkpoint['scheduler']
-    #     #self.ema=None
-    #     #if self.ema is not None:
-    #     #    self.ema.load_state_dict(checkpoint['ema'])
-    #     #    self.log.info(f'EMA states loaded from step {self.ema.step}')
-
-    #     map_location = 'cuda:%d' % local_rank
-    #     #self.network.module.load_state_dict(weights)   # directly load weights to model
-    #     model_weights = weights.copy()
-    #     fallback_mapping = {
-    #         "r_embed.mlp.0.weight":"t_embed.mlp.0.weight", 
-    #         "r_embed.mlp.0.bias":"t_embed.mlp.0.bias", 
-    #         "r_embed.mlp.2.weight":"t_embed.mlp.2.weight", 
-    #         "r_embed.mlp.2.bias": "t_embed.mlp.2.bias" 
-    #     }
-    #     for param_name, param in self.network.module.named_parameters():
-    #         if param_name in weights:
-    #             continue
-            
-    #         for target_prefix, source_prefix in fallback_mapping.items():
-    #             if param_name==target_prefix:
-                    
-    #                 source_name=source_prefix
-    #                 print(f"{param_name} not found. Copying from {source_name}")
-    #                 model_weights[param_name] = weights[source_name].clone()
-                
-    #     self.network.module.load_state_dict(model_weights, strict=False)
-    #     self.log.info(f'Global iteration {it} loaded.')
-    #     self.log.info('Network weights, optimizer states, and scheduler states loaded.')
-
-    #     return it
 
     def load_weights_in_memory(self, src_dict):
         self.network.module.load_weights(src_dict)
